@@ -7091,9 +7091,9 @@ locate-path@^5.0.0:
     p-locate "^4.1.0"
 
 lodash.defaultsdeep@^4.6.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/lodash.defaultsdeep/-/lodash.defaultsdeep-4.6.0.tgz#bec1024f85b1bd96cbea405b23c14ad6443a6f81"
-  integrity sha1-vsECT4WxvZbL6kBbI8FK1kQ6b4E=
+  version "4.6.1"
+  resolved "https://registry.yarnpkg.com/lodash.defaultsdeep/-/lodash.defaultsdeep-4.6.1.tgz#512e9bd721d272d94e3d3a63653fa17516741ca6"
+  integrity sha512-3j8wdDzYuWO3lM3Reg03MuQR957t287Rpcxp1njpEa8oDrikb+FwGdW3n+FELh/A6qib6yPit0j/pv9G/yeAqA==
 
 lodash.get@^4.4.2:
   version "4.4.2"
@@ -7513,6 +7513,13 @@ mockjs2@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/mockjs2/-/mockjs2-1.0.2.tgz#419707a03cf5852c8e9ce37acb0f44ef8ee06fc6"
   integrity sha512-O2xujQxSQ526TGtz0kUQTfFln+0V085r4mcms1aMKCmnoSW704N46BbIIwpY1DJmLuDOHJasYtfN1wwOUeA2Ow==
+  dependencies:
+    commander "*"
+
+mockjs@^1.0.1-beta3:
+  version "1.0.1-beta3"
+  resolved "https://registry.yarnpkg.com/mockjs/-/mockjs-1.0.1-beta3.tgz#d234f3c27256397564f2c955142e891909537209"
+  integrity sha1-0jTzwnJWOXVk8slVFC6JGQlTcgk=
   dependencies:
     commander "*"
 
