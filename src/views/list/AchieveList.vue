@@ -31,15 +31,15 @@
                   v-for="object in itemDataSource"
                   :value="object.item_id"
                   :key="object.item_id">
-                  {{object.itemInfo}}
+                  {{ object.itemInfo }}
                 </a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
           <a-col :md="8" :sm="24">
-            <a-form-item label="轮数">
+            <a-form-item label="比赛轮数">
               <a-select @select="selectGameRound">
-                <a-select-option v-for="i in maxRound" :value="i" :key="i">第{{i}}轮</a-select-option>
+                <a-select-option v-for="i in maxRound" :value="i" :key="i">第{{ i }}轮</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -49,7 +49,7 @@
         :columns="columns"
         :dataSource="dataSource"
         bordered
-        :pagination="{pagination: false}"
+        :pagination="pagination"
         rowKey="rank"
       >
         <template v-for="col in ['rank', 'cla_name', 'ath_name', 'grade']" :slot="col" slot-scope="text, record, index">
@@ -66,9 +66,6 @@
             <div v-else-if="col === 'grade' && grade_unit === 2">
               {{ record.grade3 }} 个/分钟
             </div>
-            <!--<div v-else-if="col === 'grade' && grade_unit === 2">-->
-              <!--{{ dataSource[index].grade3 }} 个/分钟-->
-            <!--</div>-->
             <template v-else>{{ text }}</template>
           </div>
         </template>
@@ -84,22 +81,22 @@ const columns = [{
   title: '名次',
   dataIndex: 'rank',
   width: '20%',
-  scopedSlots: { customRender: 'rank' },
+  scopedSlots: { customRender: 'rank' }
 }, {
   title: '班级和姓名',
   dataIndex: 'athleteInfo',
   width: '25%',
-  scopedSlots: { customRender: 'cla_name' },
+  scopedSlots: { customRender: 'cla_name' }
 }, {
   title: '成绩（不输入默认为0）',
   dataIndex: 'grade',
   width: '30%',
-  scopedSlots: { customRender: 'grade' },
+  scopedSlots: { customRender: 'grade' }
 }, {
   title: '得分',
   dataIndex: 'score',
   width: '25%',
-  scopedSlots: { customRender: 'score' },
+  scopedSlots: { customRender: 'score' }
 }]
 
 export default {
@@ -108,6 +105,13 @@ export default {
   },
   data () {
     return {
+      pagination: {
+        defaultPageSize: 5,
+        showTotal: total => `共 ${total} 条数据`,
+        showSizeChanger: true,
+        pageSizeOptions: ['5', '10', '15', '20'],
+        showQuickJumper: true
+      },
       queryItem_id: '',
       querySpo_id: '',
       queryItem_kind: '',
@@ -187,24 +191,24 @@ export default {
         console.log(err.toString())
       })
     },
-    // getGroupGrade () {
-    //   const jsonData = {
-    //     item_id: this.queryItem_id,
-    //     spo_id: this.querySpo_id,
-    //     game_round: this.queryGameRound,
-    //     group_no: this.queryGameGroup
-    //   }
-    //   console.log('jsonData', jsonData)
-    //   getGroupGrade(jsonData, this).then(res => {
-    //     this.data = res && res.result
-    //     this.dataSource = res && res.result.dataSource
-    //     // this.grade_unit = res && res.result.grade_unit
-    //     this.gradeDecode()
-    //     this.cacheData = this.dataSource.map(item => ({ ...item })) // 深克隆
-    //   }).catch(err => {
-    //     console.log(err.toString())
-    //   })
-    // },
+    getGroupGrade () {
+      const jsonData = {
+        item_id: this.queryItem_id,
+        spo_id: this.querySpo_id,
+        game_round: this.queryGameRound,
+        group_no: this.queryGameGroup
+      }
+      console.log('jsonData', jsonData)
+      getGroupGrade(jsonData, this).then(res => {
+        this.data = res && res.result
+        this.dataSource = res && res.result.dataSource
+        this.grade_unit = res && res.result.grade_unit
+        this.gradeDecode()
+        this.cacheData = this.dataSource.map(item => ({ ...item })) // 深克隆
+      }).catch(err => {
+        console.log(err.toString())
+      })
+    },
     getMatchRank () {
       const jsonData = {
         item_id: this.queryItem_id,
@@ -253,30 +257,11 @@ export default {
       this.maxRound = 0
       this.maxGroup = 0
       this.getItemList()
-    },
+    }
   }
 }
 </script>
 <style lang="less">
-  .header {
-    text-align: center;
-  }
-  .title {
-    height: 44px;
-    line-height: 44px;
-    font-size: 33px;
-    color: rgba(0, 0, 0, .85);
-    font-family: Avenir, 'Helvetica Neue', Arial, Helvetica, sans-serif;
-    font-weight: 600;
-    position: relative;
-    top: 2px;
-  }
-  .desc {
-    font-size: 14px;
-    color: rgba(0, 0, 0, 0.45);
-    margin-top: 12px;
-    margin-bottom: 12px;
-  }
   th.column-money,
   td.column-money {
     text-align: right !important;

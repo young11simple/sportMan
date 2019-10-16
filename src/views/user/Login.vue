@@ -147,14 +147,7 @@ export default {
     }
   },
   created () {
-    // get2step({ })
-    //   .then(res => {
-    //     this.requiredTwoStepCaptcha = res.result.stepCode
-    //   })
-    //   .catch(() => {
-    //     this.requiredTwoStepCaptcha = false
-    //   })
-    // this.requiredTwoStepCaptcha = true
+
   },
   methods: {
     ...mapActions(['Login', 'Logout', 'LeaLogin', 'yibanLogin']),
@@ -184,7 +177,6 @@ export default {
         Login,
         LeaLogin
       } = this
-      console.log('点击确认')
 
       const validateFieldsKey = this.customActiveKey === 'tab1' ? ['username', 'password'] : ['alusername', 'alpassword']
       // const validateFieldsKey = ['username', 'password']
@@ -196,12 +188,9 @@ export default {
           }
           state.loginBtn = true
           if (this.customActiveKey === 'tab1') { // 管理员登录
-            console.log('login form', values)
-            // const loginParams = { ...values }
-            // delete loginParams.username
             const jsonData = {
               adm_account: values.username,
-              adm_password: values.password
+              adm_password: md5(values.password)
             }
             console.log(jsonData)
             Login(jsonData)
@@ -216,7 +205,7 @@ export default {
             // delete loginParams.username
             const jsonData = {
               lea_account: values.alusername,
-              lea_password: values.alpassword
+              lea_password: md5(values.alpassword)
             }
             console.log(jsonData)
             LeaLogin(jsonData)
@@ -239,8 +228,6 @@ export default {
       // return
       this.$router.push({ name: 'index' })
 
-      // console.log(this.$router.)
-      // 延迟 1 秒显示欢迎信息
       setTimeout(() => {
         this.$notification.success({
           message: '欢迎',

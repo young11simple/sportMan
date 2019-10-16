@@ -39,23 +39,22 @@
           <a-col :md="8" :sm="24">
             <a-form-item label="轮数">
               <a-select @select="selectGameRound">
-                <a-select-option v-for="i in maxRound" :value="i" :key="i">第{{i}}轮</a-select-option>
+                <a-select-option v-for="i in maxRound" :value="i" :key="i">第{{ i }}轮</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
           <a-col :md="8" :sm="24">
             <a-form-item label="组别">
               <a-select @select="selectGameGroup">
-                <a-select-option v-for="i in maxGroup" :value="i" :key="i">第{{i}}组</a-select-option>
+                <a-select-option v-for="i in maxGroup" :value="i" :key="i">第{{ i }}组</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
-        </a-row>
-        <a-row :gutter="48" v-if="showDownload === true">
-          <a-col :md="8" :sm="24" style="float: right">
+          <a-col :md="8" :sm="24" v-if="showDownload === true">
             <a-button type="primary" icon="plus" @click="e => exportExcel()" style="float: right">导出报名表</a-button>
           </a-col>
         </a-row>
+
       </a-form>
       <a-table
         :columns="columns"
@@ -83,17 +82,17 @@ const columns = [{
   title: '赛道',
   dataIndex: 'track_no',
   width: '20%',
-  scopedSlots: { customRender: 'track_no' },
+  scopedSlots: { customRender: 'track_no' }
 }, {
   title: '班级',
   dataIndex: 'cla_name',
   width: '25%',
-  scopedSlots: { customRender: 'cla_name' },
+  scopedSlots: { customRender: 'cla_name' }
 }, {
   title: '姓名',
   dataIndex: 'athleteInfo',
   width: '20%',
-  scopedSlots: { customRender: 'athleteInfo' },
+  scopedSlots: { customRender: 'athleteInfo' }
 }]
 
 export default {
@@ -185,10 +184,10 @@ export default {
     },
     getGroupGrade () {
       const jsonData = {
-          item_id: this.queryItem_id,
-          spo_id: this.querySpo_id,
-          game_round: this.queryGameRound,
-          group_no: this.queryGameGroup
+        item_id: this.queryItem_id,
+        spo_id: this.querySpo_id,
+        game_round: this.queryGameRound,
+        group_no: this.queryGameGroup
 
       }
       console.log('jsonData', jsonData)
@@ -242,17 +241,14 @@ export default {
       console.log('queryIsteam', this.queryIsteam)
       this.getGameRound()
     },
-    // selectGameRound (value) {
-    //   this.queryGameRound = value
-    //   // this.getOrderData()
-    // },
+
     selectGameRound (value) {
       this.queryGameRound = value
       // 监听到轮数变化，请求最大组别，接着渲染
       const jsonData = {
-          item_id: this.queryItem_id,
-          spo_id: this.querySpo_id,
-          game_round: this.queryGameRound
+        item_id: this.queryItem_id,
+        spo_id: this.querySpo_id,
+        game_round: this.queryGameRound
       }
       console.log('jsonData', jsonData)
       getGameGroup(jsonData, this).then(res => {
@@ -273,11 +269,7 @@ export default {
     },
     queryItem_kind: function () {
       this.getItemList()
-    },
-    // queryGameGroup: function () {
-    //   // 监听到组别变化，请求表格数据，接着渲染
-    //   this.getOrderData()
-    // }
+    }
   }
 }
 </script>

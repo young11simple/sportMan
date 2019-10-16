@@ -136,25 +136,29 @@ export default {
       })
     },
     handleCreate () {
-      const jsonData = {
-        col_id: Vue.ls.get('COL_ID'),
-        cla_name: this.queryCla_name
-      }
-      console.log('jsonData', jsonData)
-      createClass(jsonData, this).then(res => {
-        let newObject = []
-        newObject = {
-          cla_name: this.queryCla_name,
-          lea_account: res.result.lea_account,
-          cla_id: res.result.cla_id
-        } // 深克隆
-        // newObject = this.queryParam
-        this.dataSource.unshift(newObject)
-        this.cacheData.unshift(newObject)
+      if (this.queryCla_name === undefined || this.queryCla_name === '') {
+        this.$message.error('请输入班级名称')
+      } else {
+        const jsonData = {
+          col_id: Vue.ls.get('COL_ID'),
+          cla_name: this.queryCla_name
+        }
+        console.log('jsonData', jsonData)
+        createClass(jsonData, this).then(res => {
+          let newObject = []
+          newObject = {
+            cla_name: this.queryCla_name,
+            lea_account: res.result.lea_account,
+            cla_id: res.result.cla_id
+          } // 深克隆
+          // newObject = this.queryParam
+          this.dataSource.unshift(newObject)
+          this.cacheData.unshift(newObject)
         // TODO：创建成功后删除本地缓存
-      }).catch(err => {
-        console.log(err.toString())
-      })
+        }).catch(err => {
+          console.log(err.toString())
+        })
+      }
     },
     handleChange (value, key, column) {
       const newData = [...this.dataSource]

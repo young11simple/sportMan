@@ -2,8 +2,8 @@ import Mock from 'mockjs2'
 import { builder, getBody, myBuilder } from '../util'
 
 const username = ['admin', 'user', 'super']
-// const password = ['21232f297a57a5a743894a0e4a801fc3', '8914de686ab28dc22f30d3d8e107ff6c'] // admin, ant.design
-const password = ['admin']
+const password = ['21232f297a57a5a743894a0e4a801fc3', '8914de686ab28dc22f30d3d8e107ff6c'] // admin, ant.design
+// const password = ['admin']
 const login = (options) => {
   console.log('进入登录')
   const body = getBody(options)
@@ -25,7 +25,8 @@ const login = (options) => {
       'adm_phone': '15802033567'
     },
     'token': '4291d7da9005377ec9aec4a71ea837f',
-    'roleId': 'admin'
+    'roleId': 'admin',
+    'nickname': '管理员'
   }, '登录成功', 1)
 }
 const leaLogin = (options) => {
@@ -62,7 +63,7 @@ Mock.mock(/\/api\/vi\/sportLeaderLogin/, 'post', leaLogin)
 Mock.mock(/\/api\/auth\/logout/, 'post', logout)
 Mock.mock(/\/api\/vi\/AdminRegister/, 'post', changeOK)
 Mock.mock(/\/api\/vi\/ResetAdminPassword/, 'post', changeOK)
-Mock.mock(/\/ad\/ChangePassword/, 'post', myBuilder({}, '[测试接口] 提交失败', -1))
-Mock.mock(/\/sl\/ChangePassword/, 'post', myBuilder({}, '[测试接口] 提交失败', 1))
-Mock.mock(/\/ad\/ChangeInvitecode/, 'post', changeOK)
-Mock.mock(/\/ad\/ChangePhone/, 'post', changeOK)
+Mock.mock(/\/api\/ad\/acount\/changePassword/, 'post', myBuilder({}, '[测试接口] 提交成功', 1))
+Mock.mock(/\/api\/sl\/account\/changePassword/, 'post', myBuilder({}, '[测试接口] 提交成功', 1))
+Mock.mock(/\/api\/ad\/account\/changeInviteCode/, 'post', changeOK)
+Mock.mock(/\/api\/ad\/account\/changePhone/, 'post', changeOK)

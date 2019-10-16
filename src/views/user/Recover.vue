@@ -198,7 +198,7 @@ export default {
           const jsonData = {
             admin: {
               adm_account: values.account,
-              adm_password: values.password,
+              adm_password: md5(values.password),
               adm_phone: values.phone
             },
             col_invitecode: values.invitecode

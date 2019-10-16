@@ -45,6 +45,10 @@ export default {
 
     &.mobile {
       .container {
+        .header{
+          margin-top:-30px;
+          margin-bottom: -20px;
+        }
         .main {
           max-width: 368px;
           width: 100vw;
@@ -56,9 +60,9 @@ export default {
       width: 100vw;
       min-height: 100%;
       height: 100vh;
-      background: #f0f2f5 url(~@/assets/background.svg) no-repeat 50%;
+      background: #f0f2f5 url(~@/assets/background.svg) repeat-y ;
       background-size: 100%;
-      padding: 50px 0 0 0;
+      padding: 10px 0 0 0;
       position: relative;
       filter: alpha(opacity=40);
       a {
@@ -71,7 +75,8 @@ export default {
         .header {
           height: 44px;
           line-height: 44px;
-
+          margin-top:20px;
+          margin-bottom: -10px;
           .badge {
             position: absolute;
             display: inline-block;
@@ -108,11 +113,11 @@ export default {
 
       .footer {
         width: 100%;
-        bottom: 0;
+        bottom: 10;
         padding: 0 16px;
         margin: 48px 0 24px;
         text-align: center;
-        position: relative;
+        position: absolute;
 
         .links {
           margin-bottom: 8px;

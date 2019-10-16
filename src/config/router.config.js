@@ -1,6 +1,5 @@
 // eslint-disable-next-line
-import { UserLayout, BasicLayout, RouteView, BlankLayout, PageView } from '@/layouts'
-import { bxAnaalyse } from '@/core/icons'
+import { UserLayout, BasicLayout, RouteView, PageView } from '@/layouts'
 export const adminRouterMap = [
   {
     path: '/',
@@ -18,47 +17,59 @@ export const adminRouterMap = [
         meta: { title: '管理员', icon: 'table' },
         children: [
           {
+            path: '/admin/classscore',
+            name: 'adminclassscore',
+            component: () => import('@/views/list/AdminClassScoreList'),
+            meta: { title: '总分列表', keepAlive: true }
+          },
+          {
             path: '/admin/sportmeetlist',
             name: 'sportmeetlist',
             // hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
             component: () => import('@/views/list/SportmeetList'),
-            meta: { title: '运动会管理表格', keepAlive: true, permission: [ 'table' ] }
-          },
-          {
-            path: '/admin/record',
-            name: 'recordlist',
-            component: () => import('@/views/list/RecordList'),
-            meta: { title: '管理员创建记录列表', keepAlive: true }
+            meta: { title: '创建运动会', keepAlive: true, permission: [ 'table' ] }
           },
           {
             path: '/admin/schoolrecord',
             name: 'schoolrecordlist',
             component: () => import('@/views/list/SchoolRecordList'),
-            meta: { title: '管理员查看校记录', keepAlive: true }
-          },
-          {
-            path: '/admin/class',
-            name: 'classist',
-            component: () => import('@/views/list/ClassList'),
-            meta: { title: '管理员填写班级列表', keepAlive: true }
+            meta: { title: '查看校记录', keepAlive: true }
           },
           {
             path: '/admin/audiencelist',
             name: 'audiencelist',
             component: () => import('@/views/list/AchieveList'),
-            meta: { title: '成绩单', keepAlive: true }
+            meta: { title: '查看成绩单', keepAlive: true }
+          },
+          {
+            path: '/admin/leaderorderlist',
+            name: 'adminorderlist',
+            component: () => import('@/views/list/OrderList'),
+            meta: { title: '秩序册列表', keepAlive: true }
+          },
+          {
+            path: '/admin/record',
+            name: 'recordlist',
+            component: () => import('@/views/list/RecordList'),
+            meta: { title: '创建记录信息', keepAlive: true }
+          },
+          {
+            path: '/admin/class',
+            name: 'classist',
+            component: () => import('@/views/list/ClassList'),
+            meta: { title: '填写班级信息', keepAlive: true }
           },
           {
             path: '/admin/adminsignup',
             name: 'adminsignuplist',
             component: () => import('@/views/list/AdminSignupList'),
-            meta: { title: '管理员报名列表', keepAlive: true }
+            meta: { title: '查看报名信息', keepAlive: true }
           },
           {
             path: '/admin/inputresult',
             name: 'inputresultlist',
             component: () => import('@/views/list/InputResultList'),
-            meta: { title: '管理员输入成绩列表', keepAlive: true }
+            meta: { title: '输入成绩信息', keepAlive: true }
           },
           {
             path: '/admin/nextround',
@@ -73,76 +84,9 @@ export const adminRouterMap = [
             component: () => import('@/views/list/GenerateScore'),
             hidden: true,
             meta: { title: '管理员生成积分', keepAlive: false }
-          },
-          {
-            path: '/admin/classscore',
-            name: 'adminclassscore',
-            component: () => import('@/views/list/AdminClassScoreList'),
-            meta: { title: '总分列表', keepAlive: true }
-          },
-          {
-            path: '/admin/leaderorderlist',
-            name: 'adminorderlist',
-            component: () => import('@/views/list/OrderList'),
-            meta: { title: '秩序册列表', keepAlive: true }
           }
         ]
       },
-      // 体委
-      // {
-      //   path: '/leader',
-      //   name: 'leader',
-      //   component: PageView,
-      //   redirect: '/leader/athlete',
-      //   meta: { title: '体育委员', icon: 'table' },
-      //   children: [
-      //     {
-      //       path: '/leader/athlete',
-      //       name: 'athletelist',
-      //       component: () => import('@/views/list/AthleteList'),
-      //       meta: { title: '体委填写运动员列表', keepAlive: true }
-      //     },
-      //     {
-      //       path: '/leader/signup',
-      //       name: 'signuplist',
-      //       component: () => import('@/views/list/SignupList'),
-      //       meta: { title: '体委报名列表', keepAlive: true }
-      //     },
-      //     {
-      //       path: '/leader/leaderorderlist',
-      //       name: 'lea_orderlist',
-      //       component: () => import('@/views/list/OrderList'),
-      //       meta: { title: '秩序册列表', keepAlive: true }
-      //     },
-      //   ]
-      // },
-      // {
-      //   path: '/leader',
-      //   name: 'leader',
-      //   component: PageView,
-      //   redirect: '/leader/athlete',
-      //   meta: { title: '体育委员', icon: 'table' },
-      //   children: [
-      //     {
-      //       path: '/leader/athlete',
-      //       name: 'athletelist',
-      //       component: () => import('@/views/list/AthleteList'),
-      //       meta: { title: '体委填写运动员列表', keepAlive: true }
-      //     },
-      //     {
-      //       path: '/leader/signup',
-      //       name: 'signuplist',
-      //       component: () => import('@/views/list/SignupList'),
-      //       meta: { title: '体委报名列表', keepAlive: true }
-      //     },
-      //     {
-      //       path: '/leader/leaderorderlist',
-      //       name: 'lea_orderlist',
-      //       component: () => import('@/views/list/OrderList'),
-      //       meta: { title: '秩序册列表', keepAlive: true }
-      //     },
-      //   ]
-      // },
       // account
       {
         path: '/account',
@@ -204,19 +148,19 @@ export const leaRouterMap = [
             path: '/leader/athlete',
             name: 'athletelist',
             component: () => import('@/views/list/AthleteList'),
-            meta: { title: '体委填写运动员列表', keepAlive: true }
+            meta: { title: '填写运动员列表', keepAlive: true }
           },
           {
             path: '/leader/signup',
             name: 'signuplist',
             component: () => import('@/views/list/SignupList'),
-            meta: { title: '体委报名列表', keepAlive: true }
+            meta: { title: '填写报名列表', keepAlive: true }
           },
           {
             path: '/leader/leaderorderlist',
             name: 'lea_orderlist',
             component: () => import('@/views/list/OrderList'),
-            meta: { title: '秩序册列表', keepAlive: true }
+            meta: { title: '查看分配信息', keepAlive: true }
           }
         ]
       },
@@ -257,198 +201,6 @@ export const asyncRouterMap = [
     meta: { title: '首页' },
     redirect: '/dashboard/workplace',
     children: [
-      // dashboard
-      {
-        path: '/dashboard',
-        name: 'dashboard',
-        redirect: '/dashboard/workplace',
-        component: RouteView,
-        meta: { title: '仪表盘', keepAlive: true, icon: bxAnaalyse, permission: [ 'dashboard' ] },
-        children: [
-          {
-            path: '/dashboard/analysis',
-            name: 'Analysis',
-            component: () => import('@/views/dashboard/Analysis'),
-            meta: { title: '分析页', keepAlive: false, permission: [ 'dashboard' ] }
-          },
-          // 外部链接
-          {
-            path: 'https://www.baidu.com/',
-            name: 'Monitor',
-            meta: { title: '监控页（外部）', target: '_blank' }
-          },
-          {
-            path: '/dashboard/workplace',
-            name: 'Workplace',
-            component: () => import('@/views/dashboard/Workplace'),
-            meta: { title: '工作台', keepAlive: true, permission: [ 'dashboard' ] }
-          }
-        ]
-      },
-
-      // forms
-      {
-        path: '/form',
-        redirect: '/form/base-form',
-        component: PageView,
-        meta: { title: '表单页', icon: 'form', permission: [ 'form' ] },
-        children: [
-          {
-            path: '/form/base-form',
-            name: 'BaseForm',
-            component: () => import('@/views/form/BasicForm'),
-            meta: { title: '基础表单', keepAlive: true, permission: [ 'form' ] }
-          },
-          {
-            path: '/form/step-form',
-            name: 'StepForm',
-            component: () => import('@/views/form/stepForm/StepForm'),
-            meta: { title: '分步表单', keepAlive: true, permission: [ 'form' ] }
-          },
-          {
-            path: '/form/advanced-form',
-            name: 'AdvanceForm',
-            component: () => import('@/views/form/advancedForm/AdvancedForm'),
-            meta: { title: '高级表单', keepAlive: true, permission: [ 'form' ] }
-          }
-        ]
-      },
-
-      // list
-      {
-        path: '/list',
-        name: 'list',
-        component: PageView,
-        redirect: '/list/table-list',
-        meta: { title: '列表页', icon: 'table', permission: [ 'table' ] },
-        children: [
-          // {
-          //   path: '/list/table-list',
-          //   name: 'TableListWrapper',
-          //   hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
-          //   component: () => import('@/views/list/TableList'),
-          //   meta: { title: '查询表格', keepAlive: true, permission: [ 'table' ] }
-          // },
-          {
-            path: '/list/sportmeet-list',
-            name: 'SportmeetList',
-            // hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
-            component: () => import('@/views/list/SportmeetList'),
-            meta: { title: '运动会管理表格', keepAlive: true, permission: [ 'table' ] }
-          },
-          // {
-          //   path: '/list/card',
-          //   name: 'CardList',
-          //   component: () => import('@/views/list/CardList'),
-          //   meta: { title: '卡片列表', keepAlive: true, permission: [ 'table' ] }
-          // },
-          {
-            path: '/list/audiencelist',
-            name: 'audiencelist',
-            component: () => import('@/views/list/AchieveList'),
-            meta: { title: '标准列表', keepAlive: true }
-          },
-          {
-            path: '/list/adminsignup',
-            name: 'adminsignuplist',
-            component: () => import('@/views/list/AdminSignupList'),
-            meta: { title: '管理员报名列表', keepAlive: true }
-          },
-          {
-            path: '/list/class',
-            name: 'classist',
-            component: () => import('@/views/list/ClassList'),
-            meta: { title: '管理员填写班级列表', keepAlive: true }
-          },
-          {
-            path: '/list/inputresult',
-            name: 'inputresultlist',
-            component: () => import('@/views/list/InputResultList'),
-            meta: { title: '管理员输入成绩列表', keepAlive: true }
-          },
-          {
-            path: '/list/nextround',
-            name: 'nextroundlist',
-            component: () => import('@/views/list/NextRoundList'),
-            meta: { title: '管理员选取下一轮列表', keepAlive: true }
-          },
-          {
-            path: '/list/record',
-            name: 'recordlist',
-            component: () => import('@/views/list/RecordList'),
-            meta: { title: '管理员创建记录列表', keepAlive: true }
-          },
-          {
-            path: '/list/athlete',
-            name: 'athletelist',
-            component: () => import('@/views/list/AthleteList'),
-            meta: { title: '体委填写运动员列表', keepAlive: true }
-          },
-          {
-            path: '/list/signup',
-            name: 'signuplist',
-            component: () => import('@/views/list/SignupList'),
-            meta: { title: '体委报名列表', keepAlive: true }
-          },
-          {
-            path: '/list/classscore',
-            name: 'adminclassscore',
-            component: () => import('@/views/list/AdminClassScoreList'),
-            meta: { title: '总分列表', keepAlive: true }
-          }
-          // {
-          //   path: '/list/search',
-          //   name: 'SearchList',
-          //   component: () => import('@/views/list/search/SearchLayout'),
-          //   redirect: '/list/search/article',
-          //   meta: { title: '搜索列表', keepAlive: true, permission: [ 'table' ] },
-          //   children: [
-          //     {
-          //       path: '/list/search/article',
-          //       name: 'SearchArticles',
-          //       component: () => import('../views/list/TableList'),
-          //       meta: { title: '搜索列表（文章）', permission: [ 'table' ] }
-          //     },
-          //     {
-          //       path: '/list/search/project',
-          //       name: 'SearchProjects',
-          //       component: () => import('../views/list/TableList'),
-          //       meta: { title: '搜索列表（项目）', permission: [ 'table' ] }
-          //     },
-          //     {
-          //       path: '/list/search/application',
-          //       name: 'SearchApplications',
-          //       component: () => import('../views/list/TableList'),
-          //       meta: { title: '搜索列表（应用）', permission: [ 'table' ] }
-          //     }
-          //   ]
-          // }
-        ]
-      },
-
-      // profile
-      {
-        path: '/profile',
-        name: 'profile',
-        component: RouteView,
-        redirect: '/profile/basic',
-        meta: { title: '详情页', icon: 'profile', permission: [ 'profile' ] },
-        children: [
-          {
-            path: '/profile/basic',
-            name: 'ProfileBasic',
-            component: () => import('@/views/profile/basic/Index'),
-            meta: { title: '基础详情页', permission: [ 'profile' ] }
-          },
-          {
-            path: '/profile/advanced',
-            name: 'ProfileAdvanced',
-            component: () => import('@/views/profile/advanced/Advanced'),
-            meta: { title: '高级详情页', permission: [ 'profile' ] }
-          }
-        ]
-      },
-
       // result
       {
         path: '/result',
@@ -556,67 +308,6 @@ export const asyncRouterMap = [
             ]
           }
         ]
-      },
-
-      // other
-      {
-        path: '/other',
-        name: 'otherPage',
-        component: PageView,
-        meta: { title: '其他组件', icon: 'slack', permission: [ 'dashboard' ] },
-        redirect: '/other/icon-selector',
-        children: [
-          {
-            path: '/other/icon-selector',
-            name: 'TestIconSelect',
-            component: () => import('@/views/other/IconSelectorView'),
-            meta: { title: 'IconSelector', icon: 'tool', keepAlive: true, permission: [ 'dashboard' ] }
-          },
-          {
-            path: '/other/list',
-            component: RouteView,
-            meta: { title: '业务布局', icon: 'layout', permission: [ 'support' ] },
-            redirect: '/other/list/tree-list',
-            children: [
-              {
-                path: '/other/list/tree-list',
-                name: 'TreeList',
-                component: () => import('@/views/other/TreeList'),
-                meta: { title: '树目录表格', keepAlive: true }
-              },
-              {
-                path: '/other/list/edit-table',
-                name: 'EditList',
-                component: () => import('@/views/other/TableInnerEditList'),
-                meta: { title: '内联编辑表格', keepAlive: true }
-              },
-              {
-                path: '/other/list/user-list',
-                name: 'UserList',
-                component: () => import('@/views/other/UserList'),
-                meta: { title: '用户列表', keepAlive: true }
-              },
-              {
-                path: '/other/list/role-list',
-                name: 'RoleList',
-                component: () => import('@/views/other/RoleList'),
-                meta: { title: '角色列表', keepAlive: true }
-              },
-              {
-                path: '/other/list/system-role',
-                name: 'SystemRole',
-                component: () => import('@/views/role/RoleList'),
-                meta: { title: '角色列表2', keepAlive: true }
-              },
-              {
-                path: '/other/list/permission-list',
-                name: 'PermissionList',
-                component: () => import('@/views/other/PermissionList'),
-                meta: { title: '权限列表', keepAlive: true }
-              }
-            ]
-          }
-        ]
       }
     ]
   },
@@ -624,114 +315,11 @@ export const asyncRouterMap = [
     path: '*', redirect: '/404', hidden: true
   }
 ]
-
-export const myRouterMap = [
-  {
-    path: '/',
-    name: 'index',
-    component: BasicLayout,
-    meta: { title: '首页' },
-    redirect: '/dashboard/workplace',
-    children: [
-      // dashboard
-      {
-        path: '/dashboard',
-        name: 'dashboard',
-        redirect: '/dashboard/workplace',
-        component: RouteView,
-        meta: { title: '仪表盘', keepAlive: true, icon: bxAnaalyse, permission: ['dashboard'] },
-        children: [
-          {
-            path: '/dashboard/analysis',
-            name: 'Analysis',
-            component: () => import('@/views/dashboard/Analysis'),
-            meta: { title: '分析页', keepAlive: false, permission: ['dashboard'] }
-          },
-          // 外部链接
-          {
-            path: 'https://www.baidu.com/',
-            name: 'Monitor',
-            meta: { title: '监控页（外部）', target: '_blank' }
-          },
-          {
-            path: '/dashboard/workplace',
-            name: 'Workplace',
-            component: () => import('@/views/dashboard/Workplace'),
-            meta: { title: '工作台', keepAlive: true, permission: ['dashboard'] }
-          }
-        ]
-      }]
-  }
-]
-/**
+/*
  * 基础路由
  * @type { *[] }
  */
 export const constantRouterMap = [
-  {
-    path: '/test',
-    component: BlankLayout,
-    redirect: '/test/home',
-    children: [
-      {
-        path: 'home',
-        name: 'TestHome',
-        component: () => import('@/views/Home')
-      }
-    ]
-  },
-  {
-    path: '/test/home',
-    component: BlankLayout,
-    children: [
-      {
-        path: 'home',
-        name: 'TestHome2',
-        component: () => import('@/views/Home')
-      }
-    ]
-  },
-  {
-    path: '/audience',
-    name: 'audiencelayout',
-    component: () => import('@/layouts/AudienceLayout'),
-    meta: { title: '观众布局', keepAlive: true },
-    children: [
-      {
-        path: 'login2',
-        name: 'login2',
-        component: () => import(/* webpackChunkName: "user" */ '@/views/user/Login')
-      },
-      {
-        path: 'register2',
-        name: 'register2',
-        component: () => import(/* webpackChunkName: "user" */ '@/views/user/Register')
-      },
-      {
-        path: 'register-result2',
-        name: 'registerResult2',
-        component: () => import(/* webpackChunkName: "user" */ '@/views/user/RegisterResult')
-      },
-      {
-        path: 'audiencelist',
-        name: 'audiencelist',
-        component: () => import('@/views/list/AudienceAchieveList'),
-        meta: { title: '成绩单', keepAlive: true }
-      },
-      {
-        path: 'orderlist',
-        name: 'orderlist',
-        component: () => import('@/views/list/AudienceOrderList'),
-        meta: { title: '秩序册列表', keepAlive: true }
-      },
-      {
-        path: 'scorelist',
-        name: 'scorelist',
-        component: () => import('@/views/list/AudienceClassScoreList'),
-        meta: { title: '总分列表', keepAlive: true }
-      }
-    ]
-  },
   {
     path: '/404',
     component: () => import(/* webpackChunkName: "fail" */ '@/views/exception/404')

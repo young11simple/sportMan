@@ -86,7 +86,7 @@ const classData = () => {
 const athleteDatasource = Mock.mock({
   'dataSource|25': [{
     'ath_gender': '@cname',
-    'ath_id|+10': 5,
+    'ath_id|+11': 5,
     'ath_name': '@cname',
     'ath_number': '@cname',
     'ath_phone': '@cname'
@@ -98,10 +98,13 @@ const athleteData = () => {
 
 const gameAthleteDatasource = Mock.mock({
   'dataSource|25': [{
-    'ath_id|+10': 5,
+    'signup_id|+1': 500,
+    'ath_id|+11': 5,
     'athleteInfo': '@cname',
     'itemInfo': '@cname',
-    'item_id|+10': 7
+    'item_id|+10': 7,
+    'ath_name': '@cname',
+    'spo_name': '@cname'
   }]
 })
 const gameAthleteData = () => {
@@ -195,23 +198,6 @@ const getPreNextRound = () => {
   return myBuilder(preNextRound, null, 1)
 }
 
-// Mock.mock(/\/sl\/QuerySportmeet.do/, 'get', spoData)
-// Mock.mock(/\/vi\/QueryItem.do/, 'get', itemData)
-// Mock.mock(/\/ad\/QueryRecord.do/, 'get', recordData)
-// Mock.mock(/\/sl\/QueryAthleteInfo.do/, 'get', athleteData)
-// Mock.mock(/\/ad\/QueryClass.do/, 'get', classData)
-// // Mock.mock(/\/vi\/QueryItem.do/, 'get', itemData)
-// Mock.mock(/\/sl\/QueryGameAthlete.do/, 'get', gameAthleteData)
-// Mock.mock(/\/vi\/GetGameRound.do/, 'get', maxRoundData)
-// Mock.mock(/\/vi\/GetGameGroup.do/, 'get', maxGroupData)
-// Mock.mock(/\/vi\/GetClassScoreRank.do/, 'get', classScoreRankData)
-// Mock.mock(/\/ad\/getOrderData.do/, 'get', getOrderData)
-// Mock.mock(/\/vi\/GetMatchRank.do/, 'get', getMatchRank)
-// Mock.mock(/\/ad\/GetGroupGrade.do/, 'get', inputScoreData)
-// Mock.mock(/\/ad\/PreNextRound.do/, 'get', getPreNextRound)
-// Mock.mock(/\/ad\/GetPreMatchScore.do/, 'get', preMatchScoreData)
-// Mock.mock(/\/ad\/ExportExcel.do/, 'get', preMatchScoreData)
-// Mock.mock(/\/ad\/DownloadSportLeaderAccount.do/, 'get', preMatchScoreData)
 Mock.mock(/\/api\/vi\/score\/getSportmeetList/, 'get', spoData)
 Mock.mock(/\/api\/ad\/record\/getRecord/, 'post', recordData)
 Mock.mock(/\/api\/vi\/score\/getItemByKind/, 'get', itemData)
@@ -222,12 +208,11 @@ Mock.mock(/\/api\/ad\/account\/downloadSportLeaderAccount/, 'post', preMatchScor
 Mock.mock(/\/api\/vi\/score\/getGroupGrade/, 'get', inputScoreData)
 Mock.mock(/\/api\/vi\/score\/getGameGroup/, 'get', maxGroupData)
 Mock.mock(/\/api\/sl\/game\/getClassGameAthlete/, 'get', gameAthleteData)
+Mock.mock(/\/api\/vi\/score\/getMatchRank/, 'get', getMatchRank)
 
-// Mock.mock(/\/vi\/QueryItem.do/, 'get', itemData)
 Mock.mock(/\/sl\/QueryGameAthlete.do/, 'post', gameAthleteData)
-Mock.mock(/\/vi\/GetClassScoreRank.do/, 'post', classScoreRankData)
+Mock.mock(/\/api\/vi\/score\/getClassScoreRank/, 'get', classScoreRankData)
 Mock.mock(/\/ad\/getOrderData.do/, 'post', getOrderData)
-Mock.mock(/\/vi\/GetMatchRank.do/, 'post', getMatchRank)
 
 Mock.mock(/\/ad\/PreNextRound.do/, 'post', getPreNextRound)
 Mock.mock(/\/ad\/GetPreMatchScore.do/, 'post', preMatchScoreData)

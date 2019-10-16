@@ -8,8 +8,8 @@
             <a-form-item label="运动会名称">
               <a-select v-model="querySpo_id" @change="handleSelect">
                 <a-select-option
-                  v-for="object in sportmeetDataSource"
-                  :value="object.spo_id"
+                  v-for="(object,index) in sportmeetDataSource"
+                  :value="index"
                   :key="object.spo_id">
                   {{ object.spo_name }}
                 </a-select-option>
@@ -28,10 +28,10 @@
           <a-col :md="8" :sm="24">
             <a-form-item label="项目名称">
               <!--a-select v-model="queryItem_id" @select="selectItemId"-->
-              <a-select v-model="queryItem_id" >
+              <a-select v-model="queryItem_id" @change="handleSelect">
                 <a-select-option
-                  v-for="object in itemDataSource"
-                  :value="object.item_id"
+                  v-for="(object,index) in itemDataSource"
+                  :value="index"
                   :key="object.item_id">
                   {{ object.itemInfo }}
                 </a-select-option>
@@ -42,8 +42,8 @@
             <a-form-item label="运动员姓名" v-show="isTeamFunc()">
               <a-select v-model="queryAth_id[0]" @change="handleSelect">
                 <a-select-option
-                  v-for="object in athleteDataSource"
-                  :value="object.ath_id"
+                  v-for="(object,index) in athleteDataSource"
+                  :value="index"
                   :key="object.ath_id">
                   {{ object.ath_name }}
                 </a-select-option>
@@ -72,26 +72,16 @@
       :columns="columns"
       :dataSource="dataSource"
       :pagination="pagination"
-      rowKey="ath_id"
+      rowKey="signup_id"
       bordered>
-      <template v-for="col in ['itemInfo', 'athleteInfo']" :slot="col" slot-scope="text, record, index">
-        <div :key="col">
-          <a-input
-            v-if="record.editable"
-            style="margin: -5px 0"
-            :value="text"
-            @change="e => handleChange(e.target.value, record.key, col)"
-          />
-          <template v-else>{{ text }}</template>
-        </div>
+      <template v-for="col in ['spo_name','itemInfo', 'ath_name','operation']" :slot="col" >
+
       </template>
-      <template slot="operation" slot-scope="text, record, index">
+      <template slot="operation" slot-scope="text, record">
         <div class="editable-row-operations">
-          <span>
-            <a-popconfirm title="确定删除吗？" @confirm="() => deleteGameAthlete(record)">
-              <a>删除</a>
-            </a-popconfirm>
-          </span>
+          <a-popconfirm title="确定删除吗？" @confirm="() => deleteGameAthlete(record.key)">
+            <a>删除</a>
+          </a-popconfirm>
         </div>
       </template>
     </a-table>
@@ -99,27 +89,27 @@
 </template>
 
 <script>
-// import moment from 'moment'
-// import { STable } from '@/components'
-// import StepByStepModal from './modules/StepByStepModal'
-// import CreateForm from './modules/CreateForm'
-// import { getRoleList, getServiceList } from '@/api/manage'
 import { getAthleteList, getGameAthleteList, getSpoList, getItemList } from '@api/search'
 import { createGameAthlete, deleteGameAthlete } from '@api/change'
 import Vue from 'vue'
 const columns = [{
+  title: '运动会名称',
+  dataIndex: 'spo_name',
+  width: '25%',
+  scopedSlots: { customRender: 'spo_name' }
+}, {
   title: '参加项目',
   dataIndex: 'itemInfo',
-  width: '33%',
+  width: '25%',
   scopedSlots: { customRender: 'itemInfo' }
 }, {
   title: '运动员姓名',
-  dataIndex: 'athleteInfo',
-  width: '33%',
-  scopedSlots: { customRender: 'athleteInfo' }
+  dataIndex: 'ath_name',
+  width: '25%',
+  scopedSlots: { customRender: 'ath_name' }
 }, {
   title: '操作',
-  width: '33%',
+  width: '25%',
   dataIndex: 'operation',
   scopedSlots: { customRender: 'operation' }
 }]
@@ -140,6 +130,7 @@ export default {
       },
       querySpo_id: '',
       queryAth_id: [],
+      qAth_id: '',
       queryItem_id: '',
       dataSource: [],
       cacheData: [],
@@ -149,7 +140,7 @@ export default {
       itemName: [],
       itemDataSource: {},
       athleteDataSource: {},
-      sportmeetDataSource: {},
+      sportmeetDataSource: [],
       isteam: 0,
       flag: false
     }
@@ -171,8 +162,7 @@ export default {
     },
     getGameAthleteList: function () {
       const jsonData = {
-        spo_id: this.querySpo_id,
-        cla_id: Vue.ls.get('CLA_ID')
+        col_id: Vue.ls.get('COL_ID')
       }
       console.log('jsonData', jsonData)
       getGameAthleteList(jsonData, this).then(res => {
@@ -200,18 +190,19 @@ export default {
         }
       }
       const jsonData = {
+        col_id: Vue.ls.get('COL_ID'),
         spo_id: this.querySpo_id,
         cla_id: Vue.ls.get('CLA_ID'),
         item_id: this.queryItem_id,
-        ath_ids: this.queryAth_id,
-        itemInfo: this.itemDataSource[this.queryItem_id].itemInfo,
-        athleteInfo: this.athleteDataSource[this.queryAth_id],
-        ath_name: this.athleteDataSource[this.queryAth_id].ath_name
+        ath_ids: this.queryAth_id
       }
       console.log(jsonData)
       createGameAthlete(jsonData, this).then(res => {
         const newObject = []
-        // newObject.ath_id = res.result.ath_id
+        newObject.signup_id = res.result.signup_id
+        newObject.itemInfo = this.itemDataSource[this.queryItem_id].itemInfo
+        newObject.ath_name = this.athleteDataSource[this.queryAth_id[0]].ath_name
+        newObject.spo_name = this.sportmeetDataSource[this.querySpo_id].spo_name
         this.dataSource.unshift(newObject)
         this.cacheData.unshift(newObject)
         console.log('创建成功')
@@ -220,20 +211,25 @@ export default {
         console.log(err.toString())
       })
     },
-    deleteGameAthlete (item) {
+    deleteGameAthlete (key) {
       const jsonData = {
-        spo_id: this.querySpo_id,
-        item_id: item.item_id,
-        ath_id: item.ath_id
+        // spo_id: this.querySpo_id,
+        // item_id: item.item_id,
+        // ath_id: item.ath_id
+        signup_id: key
       }
       console.log('jsonData', jsonData)
       deleteGameAthlete(jsonData, this).then(res => {
-        this.getGameAthleteList()
+        console.log('cilck delete', key)
+        const newData = [...this.dataSource]
+        this.dataSource = newData.filter(item => item.signup_id !== key)
       }).catch(err => {
         console.log(err.toString())
       })
     },
     handleSelect (value) {
+      this.qAth_id = value / 5 - 1
+      // console.log('ath_id:', this.queryAth_id[0])
       console.log(`selected ${value}`)
     },
     handleChange (value, key, column) {
@@ -282,24 +278,26 @@ export default {
       const jsonData = {
         col_id: Vue.ls.get('COL_ID')
       }
-      console.log('jsonData', jsonData)
+
       getSpoList(jsonData, this).then(res => {
         this.sportmeetDataSource = res && res.result.dataSource
+        console.log('运动会名称', this.sportmeetDataSource)
       }).catch(err => {
         console.log(err.toString())
       })
     }
   },
   mounted () {
+    this.getGameAthleteList()
     this.getSpoList()
     this.getAthleteList()
-    // this.getItemList()
+    this.getItemList()
   },
   watch: {
-    querySpo_id: function () {
-      this.getGameAthleteList()
-      console.log('选择新的运动会')
-    },
+    // querySpo_id: function () {
+    // this.getGameAthleteList()
+    // this.getSpoList()
+    // },
     queryItem_kind: function () {
       this.getItemList()
     },

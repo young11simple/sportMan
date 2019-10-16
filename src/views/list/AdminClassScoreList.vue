@@ -27,7 +27,7 @@
         :pagination="pagination"
         rowKey="classInfo"
         bordered>
-        <template v-for="col in ['rank', 'classInfo', 'cla_score']" :slot="col" slot-scope="text, record, index">
+        <template v-for="col in ['rank', 'classInfo', 'cla_score']" :slot="col" slot-scope="text">
           <div :key="col">
             <template>{{ text }}</template>
           </div>
@@ -38,9 +38,8 @@
   <!--</div>-->
 </template>
 <script>
-import { getClassScoreRank, getSpoList } from '@api/search'
+import { getClassScoreRank } from '@api/search'
 import { generateClassScore } from '@api/change'
-import Vue from 'vue'
 import ACol from 'ant-design-vue/es/grid/Col'
 import ARow from 'ant-design-vue/es/grid/Row'
 const columns = [{
@@ -76,22 +75,9 @@ export default {
     }
   },
   mounted () {
-    // this.getItem()
-    // this.getData()
-    this.getSpoList()
+    this.getClassScoreRank()
   },
   methods: {
-    getSpoList () {
-      const jsonData = {
-        col_id: Vue.ls.get('COL_ID')
-      }
-      console.log('jsonData', jsonData)
-      getSpoList(jsonData, this).then(res => {
-        this.sportmeetDataSource = res && res.result.dataSource
-      }).catch(err => {
-        console.log(err.toString())
-      })
-    },
     getClassScoreRank () {
       const jsonData = {
         spo_id: this.querySpo_id
@@ -118,7 +104,6 @@ export default {
   watch: {
     querySpo_id: function () {
       this.getClassScoreRank()
-      // this.getData()
     }
   }
 }

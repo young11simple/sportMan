@@ -27,7 +27,7 @@ const getCreateAthlete = () => {
 }
 
 const createGameAthlete = Mock.mock({
-  'ath_id|1000-2000': 1000
+  'signup_id|+1': 1000
 })
 const getCreateGameAthlete = () => {
   return myBuilder(createGameAthlete, '[测试接口] 提交成功', 1)
@@ -54,6 +54,6 @@ Mock.mock(/\/api\/sl\/game\/deleteGameAthlete/, 'post', changeOK)
 
 Mock.mock(/\/api\/ad\/game\/putGroupGrade/, 'post', changeOK)
 Mock.mock(/\/api\/ad\/game\/putFinish/, 'post', changeOK)
-Mock.mock(/\/ad\/ConfirmScore.do/, 'post', changeOK)
-Mock.mock(/\/api\/ad\/ad\/generateClassScore/, 'post', changeOK)
-Mock.mock(/\/ad\/GenerateNextRound.do/, 'post', changeOK)
+Mock.mock(/\/api\/ad\/game\/confirmScore/, 'post', changeOK)
+Mock.mock(/\/api\/ad\/score\/putClassScore/, 'get', changeOK)
+Mock.mock(/\/api\/ad\/game\/generateNextRound/, 'post', changeOK)

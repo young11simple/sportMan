@@ -26,7 +26,7 @@
           <template v-else>{{ text }}</template>
         </div>
       </template>
-      <template slot="operation" slot-scope="text, record, index">
+      <template slot="operation" slot-scope="text, record">
         <div class="editable-row-operations">
           <span v-if="record.editable">
             <a @click="() => handleSave(record.key)">保存</a>
@@ -47,18 +47,13 @@
 </template>
 
 <script>
-// import moment from 'moment'
-// import { STable } from '@/components'
-// import StepByStepModal from './modules/StepByStepModal'
-// import CreateForm from './modules/CreateForm'
-// import { getRoleList, getServiceList } from '@/api/manage'
-import { getSpoList, searchInfoServlet } from '@api/search'
+import { searchInfoServlet, getGameAthleteList } from '@api/search'
 import Vue from 'vue'
 
 const columns = [{
   title: '运动会',
   dataIndex: 'spo_name',
-  width: '20%',
+  width: '15%',
   scopedSlots: { customRender: 'spo_name' }
 }, {
   title: '参加项目',
@@ -78,12 +73,12 @@ const columns = [{
 }, {
   title: '组别',
   dataIndex: 'group_no',
-  width: '10%',
+  width: '12%',
   scopedSlots: { customRender: 'group_no' }
 }, {
   title: '赛道',
   dataIndex: 'track_no',
-  width: '10%',
+  width: '13%',
   scopedSlots: { customRender: 'track_no' }
 }, {
   title: '操作',
@@ -181,9 +176,25 @@ export default {
         delete target.editable
         this.dataSource = newData
       }
+    },
+    getSignupList () {
+      const jsonData = {
+        col_id: Vue.ls.get('COL_ID')
+      }
+      getGameAthleteList(jsonData, this).then(res => {
+        this.dataSource = res && res.result.dataSource
+        this.dataSource = this.dataSource.map(function (item, index) {
+          item.key = index
+          return item
+        })
+        this.cacheData = this.dataSource.map(item => ({ ...item })) // 深克隆
+      }).catch(err => {
+        console.log(err.toString())
+      })
     }
   },
   mounted () {
+    this.getSignupList()
   },
   watch: {
   }

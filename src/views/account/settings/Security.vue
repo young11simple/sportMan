@@ -60,7 +60,7 @@ export default {
       if (this.roleId === 'admin') {
         const jsonData = {
           adm_account: Vue.ls.get('ADM_ACCOUNT'),
-          adm_password: this.newPassword1
+          adm_password: md5(this.newPassword1)
         }
         console.log(jsonData)
         if (this.handleCkeck()) {

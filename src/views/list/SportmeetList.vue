@@ -5,7 +5,7 @@
         <a-row :gutter="48">
           <a-col :md="8" :sm="24">
             <a-form-item label="运动会名称">
-              <a-input v-model="queryParam.spo_name" placeholder=""/>
+              <a-input v-model="queryParam.spo_name" placeholder="" />
             </a-form-item>
           </a-col>
           <a-col :md="8" :sm="24">
@@ -38,7 +38,7 @@
       rowKey="spo_id"
       bordered
       :pagination="pagination">
-      <template v-for="col in ['spo_name', 'spo_location', 'spo_time']" :slot="col" slot-scope="text, record, index">
+      <template v-for="col in ['spo_name', 'spo_location', 'spo_time']" :slot="col" slot-scope="text, record">
         <div :key="col">
           <a-date-picker
             v-if="record.editable && col === 'spo_time'"
@@ -166,29 +166,35 @@ export default {
       })
     },
     handleCreate () {
-      const jsonData = {
-        col_id: Vue.ls.get('COL_ID'),
-        spo_name: this.queryParam.spo_name,
-        spo_time: this.queryParam.spo_time,
-        spo_location: this.queryParam.spo_location,
-        update_time: new Date()
-      }
-      console.log('创建运动会jsonData', jsonData)
-      createSportmeet(jsonData, this).then(res => {
+      if (this.queryParam.spo_name === undefined || this.queryParam.spo_location === undefined ||
+      this.queryParam.spo_time === undefined || this.queryParam.spo_name === '' ||
+      this.queryParam.spo_location === '' || this.queryParam.spo_location === '') {
+        this.$message.error('请填写完整信息')
+      } else {
+        const jsonData = {
+          col_id: Vue.ls.get('COL_ID'),
+          spo_name: this.queryParam.spo_name,
+          spo_time: this.queryParam.spo_time,
+          spo_location: this.queryParam.spo_location,
+          update_time: new Date()
+        }
+        console.log('创建运动会jsonData', jsonData)
+        createSportmeet(jsonData, this).then(res => {
         // this.getSpoList()
-        let newObject = []
-        newObject = JSON.parse(JSON.stringify(this.queryParam)) // 深克隆
-        // 获取数据，唯一的key
-        newObject.spo_id = res.result.spo_id
-        newObject.isopen = false
-        // newObject.isopen = false
-        // const newObject2 = JSON.parse(JSON.stringify(newObject))
-        console.log(newObject)
-        this.dataSource.unshift(newObject)
-        const newObject2 = JSON.parse(JSON.stringify(newObject))
-        this.cacheData.unshift(newObject2)
+          let newObject = []
+          newObject = JSON.parse(JSON.stringify(this.queryParam)) // 深克隆
+          // 获取数据，唯一的key
+          newObject.spo_id = res.result.spo_id
+          newObject.isopen = false
+          // newObject.isopen = false
+          // const newObject2 = JSON.parse(JSON.stringify(newObject))
+          console.log(newObject)
+          this.dataSource.unshift(newObject)
+          const newObject2 = JSON.parse(JSON.stringify(newObject))
+          this.cacheData.unshift(newObject2)
         // TODO：创建成功后删除本地缓存
-      })
+        })
+      }
     },
     handleDelete (key) {
       const jsonData = {
@@ -253,7 +259,6 @@ export default {
     handleEdit (key) {
       const newData = [...this.dataSource] // 浅复制
       const target = newData.filter(item => key === item.spo_id)[0]
-      // const target = this.dataSource.filter(item => key === item.spo_id)[0]
       if (target) {
         target.editable = true
         this.dataSource = newData // 发现数据地址有改变，重新渲染

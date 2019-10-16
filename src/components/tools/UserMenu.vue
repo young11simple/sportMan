@@ -3,8 +3,10 @@
     <div class="content-box">
       <a-dropdown>
         <span class="action ant-dropdown-link user-dropdown-menu">
-          <a-avatar class="avatar" size="small" :src="avatar()"/>
-          <span>{{ nickname() }}</span>
+          <!--a-avatar class="avatar" size="small" :src="avatar()"/-->
+          <img src="@/assets/logout3.png" width="20px" height="20px"/>
+          <!--span style="color:gray"> &nbsp;&nbsp;您好 </span-->
+          <span style="color:gray"> {{ nickname() }} </span>
         </span>
         <a-menu slot="overlay" class="user-dropdown-menu-wrapper">
           <!--<a-menu-item key="0">-->
@@ -13,12 +15,12 @@
           <!--<span>个人中心</span>-->
           <!--</router-link>-->
           <!--</a-menu-item>-->
-          <a-menu-item key="1">
+          <!--a-menu-item key="1">
             <router-link :to="{ name: 'settings' }">
               <a-icon type="setting"/>
               <span>账户设置</span>
             </router-link>
-          </a-menu-item>
+          </a-menu-item-->
           <!--<a-menu-item key="2" disabled>-->
           <!--<a-icon type="setting"/>-->
           <!--<span>测试</span>-->

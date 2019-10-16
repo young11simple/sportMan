@@ -55,7 +55,7 @@ export default {
     summit () {
       const jsonData = {
         col_id: Vue.ls.get('COL_ID'),
-        col_invitecode: this.newInvitecode1,
+        col_invitecode: this.newInvitecode1
       }
       console.log(jsonData)
       if (this.handleCkeck()) {

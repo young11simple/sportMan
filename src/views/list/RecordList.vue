@@ -17,8 +17,8 @@
             <a-form-item label="项目名称">
               <a-select v-model="queryItem_id">
                 <a-select-option
-                  v-for="object in itemDataSource"
-                  :value="object.item_id"
+                  v-for="(object,index) in itemDataSource"
+                  :value="index"
                   :key="object.item_id">{{ object.itemInfo }}</a-select-option>
               </a-select>
             </a-form-item>
@@ -99,7 +99,11 @@
               <!--<a-input v-model="queryParam.grade" placeholder=""/>-->
             </a-form-item>
           </a-col>
-          <a-col :md="8" :sm="24" style="float: right">
+        </a-row>
+        <a-row>
+          <a-col :md="8" :sm="24" ></a-col>
+          <a-col :md="8" :sm="24" ></a-col>
+          <a-col :md="8" :sm="24" >
             <a-button type="primary" icon="plus" @click="handleCreate" style="float: right">创建记录</a-button>
           </a-col>
         </a-row>
@@ -284,33 +288,39 @@ export default {
       console.log(key)
     },
     handleCreate () {
-      this.gradeEncodeOne()
-      const jsonData = {
-        col_id: Vue.ls.get('COL_ID'),
-        item_id: this.queryItem_id,
-        rec_person: this.queryRec_person,
-        rec_class: this.queryRec_class,
-        rec_grade: this.grade,
-        rec_spo_time: this.rec_spo_time,
-        itemInfo: this.itemDataSource[this.queryItem_id].itemInfo
-      }
-      console.log('jsonData', jsonData)
-      createRecord(jsonData, this).then(res => {
-        let newObject = []
-        newObject = jsonData // 深克隆
-        console.log('创建记录', newObject)
-        // 获取数据，唯一的key
-        newObject.rec_id = res.result.rec_id
-        // newObject.isopen = false
-        // const newObject2 = JSON.parse(JSON.stringify(newObject))
-        console.log(newObject)
-        this.dataSource.unshift(newObject)
-        const newObject2 = JSON.parse(JSON.stringify(newObject))
-        this.cacheData.unshift(newObject2)
+      if (this.queryItem_kind === undefined || this.queryRec_class === undefined ||
+      this.queryItem_id === undefined || this.queryRec_person === undefined ||
+      this.rec_spo_time === undefined || this.rec_spo_time === '' ||
+      this.queryItem_kind === '' || this.queryRec_class === '' ||
+      this.queryItem_id === '' || this.queryRec_person === '') {
+        this.$message.error('请填写完整信息')
+      } else {
+        this.gradeEncodeOne()
+        const jsonData = {
+          col_id: Vue.ls.get('COL_ID'),
+          item_id: this.queryItem_id,
+          rec_person: this.queryRec_person,
+          rec_class: this.queryRec_class,
+          rec_grade: this.grade,
+          rec_spo_time: this.rec_spo_time,
+          itemInfo: this.itemDataSource[this.queryItem_id].itemInfo
+        }
+        console.log('jsonData', jsonData)
+        createRecord(jsonData, this).then(res => {
+          let newObject = []
+          newObject = jsonData // 深克隆
+          console.log('创建记录', newObject)
+          // 获取数据，唯一的key
+          newObject.rec_id = res.result.rec_id
+          console.log(newObject)
+          this.dataSource.unshift(newObject)
+          const newObject2 = JSON.parse(JSON.stringify(newObject))
+          this.cacheData.unshift(newObject2)
         // TODO：创建成功后删除本地缓存
-      }).catch(err => {
-        console.log(err.toString())
-      })
+        }).catch(err => {
+          console.log(err.toString())
+        })
+      }
     },
     gradeDecode () {
       for (let i = 0; i < this.dataSource.length; i++) {
@@ -346,21 +356,6 @@ export default {
       } else {
         this.grade = this.grade3 + '个/分钟'
       }
-      /*
-      let total = 0
-      if (this.grade1 === undefined || isNaN(this.grade1)) {
-        this.grade3 = 0
-      }
-      total = total * 100 + this.grade1
-      if (this.grade2 === undefined || isNaN(this.grade2)) {
-        this.grade2 = 0
-      }
-      total = total * 100 + this.grade2
-      if (this.grade3 === undefined || isNaN(this.grade3)) {
-        this.grade3 = 0
-      }
-      total = total * 100 + this.grade3
-      this.grade = total */
     }
   },
   mounted () {

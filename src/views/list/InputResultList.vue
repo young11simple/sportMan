@@ -52,7 +52,7 @@
             </a-form-item>
           </a-col>
           <a-col :md="8" :sm="24">
-            <a-button type="primary" icon="check-circle" @click="summitScore" style="float: right">提交成绩</a-button>
+            <a-button type="primary" icon="check-circle" @click="putGroupGrade" style="float: right">提交成绩</a-button>
           </a-col>
           <a-col>
             <div v-if="queryGameGroup === maxGroup">
@@ -280,6 +280,7 @@ export default {
       console.log('jsonData', jsonData)
       putGroupGrade(jsonData, this).then(res => {
         console.log('提交成功')
+        // this.dataSource = res.result.dataSource
       }).catch(err => {
         console.log(err.toString())
       })
@@ -346,9 +347,6 @@ export default {
         }
         this.dataSource[i]['grade'] = temp
       }
-    },
-    summitScore () {
-      this.putGroupGrade()
     },
     createNextRound () {
       const query = {
@@ -448,20 +446,13 @@ export default {
     }
   },
   mounted () {
-    // this.getData()
+    this.getGroupGrade()
     this.getSpoList()
-    // if (this.$route.query.spo_id !== null && this.$route.query.item_id !== null &&
-    //   this.$route.query.game_round !== null && this.$route.query.game_group !== null){
-    //   this.querySpo_id = this.$route.query.spo_id
-    //   this.queryItem_id = this.$route.query.item_id
-    //   this.queryGameRound = this.$route.query.game_round
-    //   this.queryGameGroup = this.$route.query.game_group
-    //   console.log('get')
-    // }
-    // console.log('this.$route.query', this.$route.query.spo_id)
+    this.getItemList()
   },
   watch: {
     querySpo_id: function () {
+      this.getSpoList()
       this.clearCache()
       this.maxRound = 0
       this.maxGroup = 0
