@@ -141,6 +141,7 @@ export default {
       getAthleteList(jsonData, this).then(res => {
         this.data = res && res.result
         this.dataSource = res && res.result.dataSource
+        console.log(this.dataSource)
         this.cacheData = this.dataSource.map(item => ({ ...item })) // 深克隆
         // this.athleteDataSource = res && res.result.dataSource
       }).catch(err => {
@@ -167,7 +168,7 @@ export default {
         newObject.ath_id = res.result.ath_id
         this.dataSource.unshift(newObject)
         this.cacheData.unshift(newObject)
-        console.log('创建成功')
+        console.log('创建成功', newObject.ath_id)
         // TODO：创建成功后删除本地缓存
       }).catch(err => {
         console.log(err.toString())

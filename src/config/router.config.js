@@ -17,17 +17,41 @@ export const adminRouterMap = [
         meta: { title: '管理员', icon: 'table' },
         children: [
           {
-            path: '/admin/classscore',
-            name: 'adminclassscore',
-            component: () => import('@/views/list/AdminClassScoreList'),
-            meta: { title: '总分列表', keepAlive: true }
-          },
-          {
             path: '/admin/sportmeetlist',
             name: 'sportmeetlist',
             // hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
             component: () => import('@/views/list/SportmeetList'),
             meta: { title: '创建运动会', keepAlive: true, permission: [ 'table' ] }
+          },
+          {
+            path: '/admin/adminsignup',
+            name: 'adminsignuplist',
+            component: () => import('@/views/list/AdminSignupList'),
+            meta: { title: '查看报名信息', keepAlive: true }
+          },
+          {
+            path: '/admin/class',
+            name: 'classist',
+            component: () => import('@/views/list/ClassList'),
+            meta: { title: '填写班级信息', keepAlive: true }
+          },
+          {
+            path: '/admin/record',
+            name: 'recordlist',
+            component: () => import('@/views/list/RecordList'),
+            meta: { title: '创建记录信息', keepAlive: true }
+          },
+          {
+            path: '/admin/inputresult',
+            name: 'inputresultlist',
+            component: () => import('@/views/list/InputResultList'),
+            meta: { title: '输入成绩信息', keepAlive: true }
+          },
+          {
+            path: '/admin/classscore',
+            name: 'adminclassscore',
+            component: () => import('@/views/list/AdminClassScoreList'),
+            meta: { title: '总分列表', keepAlive: true }
           },
           {
             path: '/admin/schoolrecord',
@@ -47,30 +71,7 @@ export const adminRouterMap = [
             component: () => import('@/views/list/OrderList'),
             meta: { title: '秩序册列表', keepAlive: true }
           },
-          {
-            path: '/admin/record',
-            name: 'recordlist',
-            component: () => import('@/views/list/RecordList'),
-            meta: { title: '创建记录信息', keepAlive: true }
-          },
-          {
-            path: '/admin/class',
-            name: 'classist',
-            component: () => import('@/views/list/ClassList'),
-            meta: { title: '填写班级信息', keepAlive: true }
-          },
-          {
-            path: '/admin/adminsignup',
-            name: 'adminsignuplist',
-            component: () => import('@/views/list/AdminSignupList'),
-            meta: { title: '查看报名信息', keepAlive: true }
-          },
-          {
-            path: '/admin/inputresult',
-            name: 'inputresultlist',
-            component: () => import('@/views/list/InputResultList'),
-            meta: { title: '输入成绩信息', keepAlive: true }
-          },
+
           {
             path: '/admin/nextround',
             name: 'nextroundlist',

@@ -38,10 +38,11 @@
   <!--</div>-->
 </template>
 <script>
-import { getClassScoreRank } from '@api/search'
+import { getClassScoreRank, getSpoList } from '@api/search'
 import { generateClassScore } from '@api/change'
 import ACol from 'ant-design-vue/es/grid/Col'
 import ARow from 'ant-design-vue/es/grid/Row'
+import Vue from 'vue'
 const columns = [{
   title: '名次',
   dataIndex: 'rank',
@@ -61,7 +62,7 @@ export default {
   data () {
     return {
       pagination: {
-        defaultPageSize: 5,
+        defaultPageSize: 10,
         showTotal: total => `共 ${total} 条数据`,
         showSizeChanger: true,
         pageSizeOptions: ['5', '10', '15', '20'],
@@ -75,9 +76,20 @@ export default {
     }
   },
   mounted () {
-    this.getClassScoreRank()
+    this.getSpoList()
   },
   methods: {
+    getSpoList () {
+      const jsonData = {
+        col_id: Vue.ls.get('COL_ID')
+      }
+      console.log('jsonData', jsonData)
+      getSpoList(jsonData, this).then(res => {
+        this.sportmeetDataSource = res && res.result.dataSource
+      }).catch(err => {
+        console.log(err.toString())
+      })
+    },
     getClassScoreRank () {
       const jsonData = {
         spo_id: this.querySpo_id

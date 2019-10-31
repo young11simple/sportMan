@@ -190,7 +190,7 @@ export default {
     // this.cacheData = this.dataSource.map(item => ({ ...item }))
     return {
       pagination: {
-        defaultPageSize: 5,
+        defaultPageSize: 10,
         showTotal: total => `共 ${total} 条数据`,
         showSizeChanger: true,
         pageSizeOptions: ['5', '10', '15', '20'],
@@ -235,6 +235,7 @@ export default {
       getGroupGrade(jsonData, this).then(res => {
         this.data = res && res.result
         this.dataSource = res && res.result.dataSource
+        console.log('获取组别比赛信息', this.dataSource)
         // this.grade_unit = res && res.result.grade_unit
         this.gradeDecode()
         this.cacheData = this.dataSource.map(item => ({ ...item })) // 深克隆
@@ -446,13 +447,10 @@ export default {
     }
   },
   mounted () {
-    this.getGroupGrade()
     this.getSpoList()
-    this.getItemList()
   },
   watch: {
     querySpo_id: function () {
-      this.getSpoList()
       this.clearCache()
       this.maxRound = 0
       this.maxGroup = 0

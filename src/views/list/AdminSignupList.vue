@@ -95,7 +95,7 @@ export default {
   data () {
     return {
       pagination: {
-        defaultPageSize: 5,
+        defaultPageSize: 10,
         showTotal: total => `共 ${total} 条数据`,
         showSizeChanger: true,
         pageSizeOptions: ['5', '10', '15', '20'],
@@ -116,21 +116,26 @@ export default {
   },
   methods: {
     onSearch () {
-      console.log(this.querySearch)
-      // TODO:调用接口获取数据
-      const jsonData = {
-        col_id: Vue.ls.get('COL_ID'),
-        searchString: this.querySearch
-      }
-      searchInfoServlet(jsonData, this).then(res => {
-        this.dataSource = res && res.result.dataSource
-        this.dataSource = this.dataSource.map(function (item, index) {
-          item.key = index
-          return item
+      if (this.querySearch === undefined || this.querySearch === '') {
+        this.$message.error('请输入要搜索的信息')
+      } else {
+        console.log('查询内容', this.querySearch)
+        // TODO:调用接口获取数据
+        const jsonData = {
+          col_id: Vue.ls.get('COL_ID'),
+          searchString: this.querySearch
+        }
+        searchInfoServlet(jsonData, this).then(res => {
+          this.dataSource = res && res.result.dataSource
+          this.querySearch = undefined
+          this.dataSource = this.dataSource.map(function (item, index) {
+            item.key = index
+            return item
+          })
+        }).catch(err => {
+          console.log(err.toString())
         })
-      }).catch(err => {
-        console.log(err.toString())
-      })
+      }
     },
     handleChange (value, key, column) {
       const newData = [...this.dataSource]
@@ -176,25 +181,26 @@ export default {
         delete target.editable
         this.dataSource = newData
       }
-    },
-    getSignupList () {
-      const jsonData = {
-        col_id: Vue.ls.get('COL_ID')
-      }
-      getGameAthleteList(jsonData, this).then(res => {
-        this.dataSource = res && res.result.dataSource
-        this.dataSource = this.dataSource.map(function (item, index) {
-          item.key = index
-          return item
-        })
-        this.cacheData = this.dataSource.map(item => ({ ...item })) // 深克隆
-      }).catch(err => {
-        console.log(err.toString())
-      })
     }
+    // TODO:考虑直接砍掉函数，或许传递正确的参数
+    // getSignupList () {
+    //   const jsonData = {
+    //     col_id: Vue.ls.get('COL_ID')spo_id cla_id
+    //   }
+    //   console.log('获取报名信息所需的信息：', jsonData)
+    //   getGameAthleteList(jsonData, this).then(res => {
+    //     this.dataSource = res && res.result.dataSource
+    //     this.dataSource = this.dataSource.map(function (item, index) {
+    //       item.key = index
+    //       return item
+    //     })
+    //     this.cacheData = this.dataSource.map(item => ({ ...item })) // 深克隆
+    //   }).catch(err => {
+    //     console.log(err.toString())
+    //   })
+    // }
   },
   mounted () {
-    this.getSignupList()
   },
   watch: {
   }

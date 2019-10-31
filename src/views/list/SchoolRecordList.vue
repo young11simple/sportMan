@@ -66,7 +66,7 @@ export default {
     // this.cacheData = this.dataSource.map(item => ({ ...item }))
     return {
       pagination: {
-        defaultPageSize: 5,
+        defaultPageSize: 10,
         showTotal: total => `共 ${total} 条数据`,
         showSizeChanger: true,
         pageSizeOptions: ['5', '10', '15', '20'],
@@ -94,6 +94,7 @@ export default {
       console.log('jsonData', jsonData)
       getRecordList(jsonData, this).then(res => {
         this.dataSource = res && res.result.dataSource
+        console.log(res.result.dataSource)
         this.cacheData = this.dataSource.map(item => ({ ...item })) // 深克隆
         this.gradeDecode()
       }).catch(err => {

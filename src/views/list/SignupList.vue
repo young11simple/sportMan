@@ -8,9 +8,9 @@
             <a-form-item label="运动会名称">
               <a-select v-model="querySpo_id" @change="handleSelect">
                 <a-select-option
-                  v-for="(object,index) in sportmeetDataSource"
-                  :value="index"
-                  :key="object.spo_id">
+                  v-for="object in sportmeetDataSource"
+                  :value="object.spo_id"
+                  :key="object.spo_name">
                   {{ object.spo_name }}
                 </a-select-option>
               </a-select>
@@ -31,7 +31,7 @@
               <a-select v-model="queryItem_id" @change="handleSelect">
                 <a-select-option
                   v-for="(object,index) in itemDataSource"
-                  :value="index"
+                  :value="object.item_id"
                   :key="object.item_id">
                   {{ object.itemInfo }}
                 </a-select-option>
@@ -72,14 +72,14 @@
       :columns="columns"
       :dataSource="dataSource"
       :pagination="pagination"
-      rowKey="signup_id"
+      rowKey=""
       bordered>
       <template v-for="col in ['spo_name','itemInfo', 'ath_name','operation']" :slot="col" >
 
       </template>
-      <template slot="operation" slot-scope="text, record">
+      <template slot="operation" slot-scope="text,record">
         <div class="editable-row-operations">
-          <a-popconfirm title="确定删除吗？" @confirm="() => deleteGameAthlete(record.key)">
+          <a-popconfirm title="确定删除吗？" @confirm="() => deleteGameAthlete()">
             <a>删除</a>
           </a-popconfirm>
         </div>
@@ -122,12 +122,13 @@ export default {
   data () {
     return {
       pagination: {
-        defaultPageSize: 5,
+        defaultPageSize: 10,
         showTotal: total => `共 ${total} 条数据`,
         showSizeChanger: true,
         pageSizeOptions: ['5', '10', '15', '20'],
         showQuickJumper: true
       },
+      queryParams: {},
       querySpo_id: '',
       queryAth_id: [],
       qAth_id: '',
@@ -162,9 +163,10 @@ export default {
     },
     getGameAthleteList: function () {
       const jsonData = {
-        col_id: Vue.ls.get('COL_ID')
+        spo_id: this.querySpo_id,
+        cla_id: Vue.ls.get('CLA_ID')
       }
-      console.log('jsonData', jsonData)
+      console.log('获取报名运动员列表：', jsonData)
       getGameAthleteList(jsonData, this).then(res => {
         this.dataSource = res && res.result.dataSource
         this.dataSource = this.dataSource.map(function (item, index) {
@@ -190,48 +192,52 @@ export default {
         }
       }
       const jsonData = {
-        col_id: Vue.ls.get('COL_ID'),
         spo_id: this.querySpo_id,
         cla_id: Vue.ls.get('CLA_ID'),
         item_id: this.queryItem_id,
         ath_ids: this.queryAth_id
       }
-      console.log(jsonData)
+      console.log('报名信息', jsonData)
       createGameAthlete(jsonData, this).then(res => {
-        const newObject = []
-        newObject.signup_id = res.result.signup_id
-        newObject.itemInfo = this.itemDataSource[this.queryItem_id].itemInfo
-        newObject.ath_name = this.athleteDataSource[this.queryAth_id[0]].ath_name
-        newObject.spo_name = this.sportmeetDataSource[this.querySpo_id].spo_name
-        this.dataSource.unshift(newObject)
-        this.cacheData.unshift(newObject)
-        console.log('创建成功')
-        // TODO：创建成功后删除本地缓存
+        this.getGameAthleteList()
+        // TODO：可以使用另一种更新方式
+        // const newObject = {}
+        // // newObject.signup_id = res.result.signup_id
+        // // newObject.itemInfo = this.itemDataSource['item_id:' + this.queryItem_id].itemInfo
+        // // newObject.ath_name = this.athleteDataSource[this.queryAth_id[0]].ath_name
+        // // newObject.spo_name = this.sportmeetDataSource[this.querySpo_id].spo_name
+        // this.dataSource.unshift(newObject)
+        // this.cacheData.unshift(newObject)
+        // console.log('创建成功', newObject)
       }).catch(err => {
         console.log(err.toString())
       })
     },
     deleteGameAthlete (key) {
       const jsonData = {
-        // spo_id: this.querySpo_id,
-        // item_id: item.item_id,
-        // ath_id: item.ath_id
-        signup_id: key
+        spo_id: this.querySpo_id,
+        item_id: this.queryItem_id,
+        ath_id: this.queryAth_id[0]
       }
-      console.log('jsonData', jsonData)
+      console.log('jsonData', jsonData, 'key', key)
       deleteGameAthlete(jsonData, this).then(res => {
-        console.log('cilck delete', key)
-        const newData = [...this.dataSource]
-        this.dataSource = newData.filter(item => item.signup_id !== key)
+        // TODO：使用本地缓存过滤
+        // console.log('cilck delete', key)
+        // const newData = [...this.dataSource]
+        // this.dataSource = newData.filter(item => item.signup_id !== key)
+        this.getGameAthleteList()
       }).catch(err => {
         console.log(err.toString())
       })
     },
     handleSelect (value) {
-      this.qAth_id = value / 5 - 1
-      // console.log('ath_id:', this.queryAth_id[0])
       console.log(`selected ${value}`)
     },
+    // handleSelectSpo_id (value, key) {
+    //   // this.queryParams.spo_name = key
+    //   console.log(`selected ${value}`)
+    //   console.log('key', key)
+    // },
     handleChange (value, key, column) {
       const newData = [...this.dataSource]
       const target = newData.filter(item => key === item.key)[0]
@@ -288,16 +294,14 @@ export default {
     }
   },
   mounted () {
-    this.getGameAthleteList()
     this.getSpoList()
     this.getAthleteList()
-    this.getItemList()
   },
   watch: {
-    // querySpo_id: function () {
-    // this.getGameAthleteList()
-    // this.getSpoList()
-    // },
+    querySpo_id: function () {
+      this.getGameAthleteList()
+      console.log('选择新的运动会')
+    },
     queryItem_kind: function () {
       this.getItemList()
     },

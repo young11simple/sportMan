@@ -1,13 +1,14 @@
 import Mock from 'mockjs2'
 import { myBuilder } from '../util'
+// const spoNameData = ['水运会', '院运会', '校运会']
 const spoDatasource = Mock.mock({
   'dataSource|15': [{
-    'spo_id|+10': 5,
+    'spo_id|+1': 0,
     'spo_name': '@cname',
     'spo_time|1556704132344-1656704132344': 1556704132344,
     'spo_location': '@city',
-    'isopen|1': true,
-    'update_time': '2019-10-11T08:31:53.460Z'
+    'isopen': false,
+    'update_time': '@datetime'
   }]
 })
 const spoData = () => {
@@ -151,6 +152,22 @@ const premada = Mock.mock({
 const preMatchScoreData = () => {
   return myBuilder(premada, null, 1)
 }
+
+const gameInfo = Mock.mock({
+  'dataSource|8': [{
+    'spo_name': '@cname',
+    'item_name': '女子100m',
+    'ath_name': '@cname',
+    'cla_name': '网工',
+    'group_no|+1': 1,
+    'track_no|+1': 1
+  }]
+})
+
+const getGameInfo = () => {
+  return myBuilder(gameInfo, null, 1)
+}
+
 const classScoreRankDataSource = Mock.mock({
   'dataSource|8': [{
     'cla_score|0-30': 0,
@@ -210,6 +227,7 @@ Mock.mock(/\/api\/vi\/score\/getGameGroup/, 'get', maxGroupData)
 Mock.mock(/\/api\/sl\/game\/getClassGameAthlete/, 'get', gameAthleteData)
 Mock.mock(/\/api\/vi\/score\/getMatchRank/, 'get', getMatchRank)
 
+Mock.mock(/\/api\/ad\/game\/getGameInfo/, 'get', getGameInfo)
 Mock.mock(/\/sl\/QueryGameAthlete.do/, 'post', gameAthleteData)
 Mock.mock(/\/api\/vi\/score\/getClassScoreRank/, 'get', classScoreRankData)
 Mock.mock(/\/ad\/getOrderData.do/, 'post', getOrderData)

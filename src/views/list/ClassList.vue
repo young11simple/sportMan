@@ -103,7 +103,7 @@ export default {
     // this.cacheData = this.dataSource.map(item => ({ ...item }))
     return {
       pagination: {
-        defaultPageSize: 5,
+        defaultPageSize: 10,
         showTotal: total => `共 ${total} 条数据`,
         showSizeChanger: true,
         pageSizeOptions: ['5', '10', '15', '20'],
@@ -151,6 +151,7 @@ export default {
             lea_account: res.result.lea_account,
             cla_id: res.result.cla_id
           } // 深克隆
+          console.log('res.result', res.result)
           // newObject = this.queryParam
           this.dataSource.unshift(newObject)
           this.cacheData.unshift(newObject)

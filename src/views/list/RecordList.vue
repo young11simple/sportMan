@@ -7,9 +7,12 @@
           <a-col :md="8" :sm="24">
             <a-form-item label="类型">
               <a-select v-model="queryItem_kind">
-                <a-select-option value="径赛" :key="0" @click="test(0)">径赛</a-select-option>
+                <!-- <a-select-option value="径赛" :key="0" @click="test(0)">径赛</a-select-option>
                 <a-select-option value="田赛" :key="1" @click="test(1)">田赛</a-select-option>
-                <a-select-option value="其它" :key="2" @click="test(2)">其它</a-select-option>
+                <a-select-option value="其它" :key="2" @click="test(2)">其它</a-select-option> -->
+                <a-select-option value="2" :key="2">径赛</a-select-option>
+                <a-select-option value="1" :key="1">田赛</a-select-option>
+                <a-select-option value="3" :key="3">其它</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -191,7 +194,7 @@ export default {
     // this.cacheData = this.dataSource.map(item => ({ ...item }))
     return {
       pagination: {
-        defaultPageSize: 5,
+        defaultPageSize: 10,
         showTotal: total => `共 ${total} 条数据`,
         showSizeChanger: true,
         pageSizeOptions: ['5', '10', '15', '20'],
@@ -283,10 +286,10 @@ export default {
         this.dataSource = newData
       }
     },
-    test: function (key) {
-      this.queryGrade_unit = key
-      console.log(key)
-    },
+    // test: function (key) {
+    //   this.queryGrade_unit = key
+    //   console.log(key)
+    // },
     handleCreate () {
       if (this.queryItem_kind === undefined || this.queryRec_class === undefined ||
       this.queryItem_id === undefined || this.queryRec_person === undefined ||
@@ -302,25 +305,37 @@ export default {
           rec_person: this.queryRec_person,
           rec_class: this.queryRec_class,
           rec_grade: this.grade,
-          rec_spo_time: this.rec_spo_time,
-          itemInfo: this.itemDataSource[this.queryItem_id].itemInfo
+          rec_spo_time: this.rec_spo_time
         }
-        console.log('jsonData', jsonData)
+        console.log('创建记录信息：', jsonData)
         createRecord(jsonData, this).then(res => {
-          let newObject = []
-          newObject = jsonData // 深克隆
-          console.log('创建记录', newObject)
-          // 获取数据，唯一的key
-          newObject.rec_id = res.result.rec_id
-          console.log(newObject)
-          this.dataSource.unshift(newObject)
-          const newObject2 = JSON.parse(JSON.stringify(newObject))
-          this.cacheData.unshift(newObject2)
-        // TODO：创建成功后删除本地缓存
+          console.log('记录创建成功')
+          this.getRecordList()
+          this.clearInfo()
+          // TODO：创建成功后删除本地缓存
+          // let newObject = []
+          // newObject = jsonData // 深克隆
+          // console.log('创建记录', newObject)
+          // // 获取数据，唯一的key
+          // newObject.rec_id = res.result.rec_id
+          // console.log(newObject)
+          // this.dataSource.unshift(newObject)
+          // const newObject2 = JSON.parse(JSON.stringify(newObject))
+          // this.cacheData.unshift(newObject2)
         }).catch(err => {
           console.log(err.toString())
         })
       }
+    },
+    clearInfo () {
+      this.queryItem_kind = undefined
+      this.queryRec_class = undefined
+      this.queryItem_id = undefined
+      this.queryRec_person = undefined
+      this.rec_spo_time = undefined
+      this.grade1 = undefined
+      this.grade2 = undefined
+      this.grade3 = undefined
     },
     gradeDecode () {
       for (let i = 0; i < this.dataSource.length; i++) {
@@ -349,13 +364,20 @@ export default {
       console.log(this.dataSource)
     },
     gradeEncodeOne () {
-      if (this.queryGrade_unit === 0) {
-        this.grade = this.grade1 + '分' + this.grade2 + '秒' + this.grade3 + '毫秒'
-      } else if (this.queryGrade_unit === 1) {
-        this.grade = this.grade2 + '秒' + this.grade3 + '毫秒'
-      } else {
-        this.grade = this.grade3 + '个/分钟'
+      let total = 0
+      if (this.grade1 === undefined || isNaN(this.grade1)) {
+        this.grade3 = 0
       }
+      total = total * 100 + this.grade1
+      if (this.grade2 === undefined || isNaN(this.grade2)) {
+        this.grade2 = 0
+      }
+      total = total * 100 + this.grade2
+      if (this.grade3 === undefined || isNaN(this.grade3)) {
+        this.grade3 = 0
+      }
+      total = total * 100 + this.grade3
+      this.grade = total
     }
   },
   mounted () {
