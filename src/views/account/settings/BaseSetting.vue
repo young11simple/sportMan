@@ -7,14 +7,14 @@
             <a-form-item
               label="账号："
             >
-              {{adm_account}}
+              {{ adm_account }}
             </a-form-item>
           </div>
 
           <a-form-item
             label="学院:"
           >
-            {{col_name}}
+            {{ col_name }}
           </a-form-item>
           <a-form-item
             label="手机"
@@ -29,13 +29,13 @@
 
       </a-col>
       <!--<a-col :md="24" :lg="8" :style="{ minHeight: '180px' }">-->
-        <!--<div class="ant-upload-preview" @click="$refs.modal.edit(1)" >-->
-          <!--<a-icon type="cloud-upload-o" class="upload-icon"/>-->
-          <!--<div class="mask">-->
-            <!--<a-icon type="plus" />-->
-          <!--</div>-->
-          <!--<img :src="option.img"/>-->
-        <!--</div>-->
+      <!--<div class="ant-upload-preview" @click="$refs.modal.edit(1)" >-->
+      <!--<a-icon type="cloud-upload-o" class="upload-icon"/>-->
+      <!--<div class="mask">-->
+      <!--<a-icon type="plus" />-->
+      <!--</div>-->
+      <!--<img :src="option.img"/>-->
+      <!--</div>-->
       <!--</a-col>-->
 
     </a-row>
@@ -58,7 +58,7 @@ export default {
     return {
       phone: Vue.ls.get('ADM_PHONE'),
       adm_account: Vue.ls.get('ADM_ACCOUNT'),
-      col_name: Vue.ls.get('COL_NAME'),
+      col_name: Vue.ls.get('COL_NAME')
     }
   },
   methods: {

@@ -2,7 +2,7 @@
 <template>
   <a-card :bordered="false">
     <a-col>
-      <h3>{{spo_name+' / '+itemInfo+' / '+'第'+queryGameRound+'轮'}}</h3>
+      <h3>{{ spo_name+' / '+itemInfo+' / '+'第'+queryGameRound+'轮' }}</h3>
     </a-col>
     <a-col>
       <a-button @click="goback">
@@ -20,7 +20,7 @@
       :pagination="{pageSize:25}"
       rowKey="ath_id"
     >
-      <template v-for="col in ['item_id', 'itemInfo', 'athInfo', 'grade', 'score']" :slot="col" slot-scope="text, record, index">
+      <template v-for="col in ['item_id', 'itemInfo', 'athInfo', 'grade', 'score']" :slot="col" slot-scope="text, record">
         <div :key="col">
           <div v-if="col === 'grade' && grade_unit === 0">
             {{ record.grade1 }} 分
@@ -75,18 +75,19 @@
 
 <script>
 import ACol from 'ant-design-vue/es/grid/Col'
-import { getPreMatchScore, preNextRound } from '@api/search'
+// import { getPreMatchScore, preNextRound } from '@api/search'
+import { preNextRound } from '@api/search'
 import { generateNextRound } from '@api/change'
 const columns = [{
   title: '姓名',
   dataIndex: 'athleteInfo',
   width: '45%',
-  scopedSlots: { customRender: 'athleteInfo' },
+  scopedSlots: { customRender: 'athleteInfo' }
 }, {
   title: '成绩（不输入默认为0）',
   dataIndex: 'grade',
   width: '45%',
-  scopedSlots: { customRender: 'grade' },
+  scopedSlots: { customRender: 'grade' }
 }]
 
 export default {
@@ -118,7 +119,7 @@ export default {
       itemInfo: '',
       // itemName,
       // className,
-      modalVisible: false,
+      modalVisible: false
       // itemDataSource: [],
       // sportmeetDataSource: [],
     }

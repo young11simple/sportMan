@@ -15,7 +15,7 @@
     <div class="page-menu-search" style="width: 100%; border-top:2px solid  #F0F2F5; "></div>
 
     <a-table :columns="columns" :dataSource="dataSource" bordered :pagination="pagination">
-      <template v-for="col in ['ath_number', 'ath_name', 'item_name']" :slot="col" slot-scope="text, record, index">
+      <template v-for="col in ['ath_number', 'ath_name', 'item_name']" :slot="col" slot-scope="text, record">
         <div :key="col">
           <a-input
             v-if="record.editable"
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { searchInfoServlet, getGameAthleteList } from '@api/search'
+import { searchInfoServlet } from '@api/search'
 import Vue from 'vue'
 
 const columns = [{

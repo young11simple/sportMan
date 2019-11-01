@@ -115,7 +115,7 @@
     <br>
     <!--<div></div>-->
     <a-table :columns="columns" :dataSource="dataSource" rowKey="rec_id" bordered :pagination="pagination">
-      <template v-for="col in ['itemInfo', 'rec_class', 'rec_person', 'rec_spo_time', 'rec_grade', 'operation']" :slot="col" slot-scope="text, record, index">
+      <template v-for="col in ['itemInfo', 'rec_class', 'rec_person', 'rec_spo_time', 'rec_grade', 'operation']" :slot="col" slot-scope="text, record">
         <div :key="col">
           <div v-if="col === 'rec_grade' && record.grade_unit === 0">
             {{ record.grade1 }} 分
@@ -136,7 +136,7 @@
           <!--<template>{{ text }}</template>-->
         </div>
       </template>
-      <template slot="operation" slot-scope="text, record, index">
+      <template slot="operation" slot-scope="text, record">
         <div class="editable-row-operations">
           <span>
             <a-popconfirm title="确定删除吗？" @confirm="() => handleDelete(record.rec_id)">

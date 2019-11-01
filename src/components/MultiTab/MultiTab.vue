@@ -1,4 +1,4 @@
-<template>
+<!--template>
   <div style="margin: -23px -24px 24px -24px">
 
     <!--a-menu slot="overlay">
@@ -6,7 +6,7 @@
         <a-menu-item key="2">2nd menu item</a-menu-item>
         <a-menu-item key="3">3rd menu item</a-menu-item>
       </a-menu>
-    </a-dropdown>&ndash;&gt;-->
+    </a-dropdown>&ndash;&gt;>
     <a-tabs
       class="atabs"
       hideAdd
@@ -22,8 +22,7 @@
       </template>
     </a-tabs>
   </div>
-</template>
--->
+</template-->
 
 <script>
 export default {
@@ -155,7 +154,6 @@ export default {
         >
         </a-tab-pane>)
     })
-    /*
     return (
       <div class="ant-pro-multi-tab" >
         <div class="ant-pro-multi-tab-wrapper">
@@ -169,7 +167,7 @@ export default {
           </a-tabs>
         </div>
       </div>
-    ) */
+    )
   }
 }
 </script>

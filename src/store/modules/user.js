@@ -1,7 +1,7 @@
 import Vue from 'vue'
-import { login, getInfo, logout, leaLogin } from '@/api/login'
+import { login, logout, leaLogin } from '@/api/login'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
-import { welcome } from '@/utils/util'
+// import { welcome } from '@/utils/util'
 import { ROLE_ID, ADM_ACCOUNT, ADM_PHONE, ADM_ID, COL_ID, COL_NAME, CLA_ID, CLA_NAME, ACCOUNT } from '../mutation-types'
 
 const user = {
@@ -78,8 +78,8 @@ const user = {
           reject(error)
         })
       })
-    }, 
-yibanLogin ({ commit }) {
+    },
+    yibanLogin ({ commit }, userInfo) { // 原参数没有userInfo，但下面有引用到，加上了
       return new Promise((resolve, reject) => {
         leaLogin(userInfo).then(response => {
           const result = response.result

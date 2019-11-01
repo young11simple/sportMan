@@ -21,7 +21,7 @@
     <br>
     <!--<div></div>-->
     <a-table :columns="columns" :dataSource="dataSource" rowKey="cla_id" bordered :pagination="pagination">
-      <template v-for="col in ['lea_account', 'cla_name']" :slot="col" slot-scope="text, record, index">
+      <template v-for="col in ['lea_account', 'cla_name']" :slot="col" slot-scope="text, record">
         <div :key="col">
           <a-input
             v-if="record.editable&&col === 'cla_name'"
@@ -32,12 +32,12 @@
           <template v-else>{{ text }}</template>
         </div>
       </template>
-      <template slot="reset" slot-scope="text, record, index">
+      <template slot="reset" slot-scope="text, record">
         <a-popconfirm title="确定重置密码吗？" @confirm="() => handleReset(record.cla_id)">
           <a>重置密码</a>
         </a-popconfirm>
       </template>
-      <template slot="operation" slot-scope="text, record, index">
+      <template slot="operation" slot-scope="text, record">
         <div class="editable-row-operations">
           <span v-if="record.editable">
             <a-popconfirm title="确定保存吗？" @confirm="() => handleSave(record.cla_id)">

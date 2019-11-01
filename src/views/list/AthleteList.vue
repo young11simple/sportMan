@@ -37,7 +37,7 @@
     <br>
     <!--<div></div>-->
     <a-table :columns="columns" :dataSource="dataSource" rowKey="ath_id" bordered :pagination="pagination">
-      <template v-for="col in ['ath_number', 'ath_name', 'ath_gender', 'ath_phone']" :slot="col" slot-scope="text, record, index">
+      <template v-for="col in ['ath_number', 'ath_name', 'ath_gender', 'ath_phone']" :slot="col" slot-scope="text, record">
         <div :key="col">
           <a-input
             v-if="record.editable"
@@ -48,7 +48,7 @@
           <template v-else>{{ text }}</template>
         </div>
       </template>
-      <template slot="operation" slot-scope="text, record, index">
+      <template slot="operation" slot-scope="text, record">
         <div class="editable-row-operations">
           <span v-if="record.editable">
             <a @click="() => handleSave(record.ath_id)">保存</a>

@@ -2,7 +2,7 @@
 <template>
   <a-card :bordered="false">
     <a-table :columns="columns" :dataSource="dataSource" rowKey="rec_id" bordered :pagination="pagination">
-      <template v-for="col in ['itemInfo', 'rec_class', 'rec_person', 'rec_spo_time', 'rec_grade', 'operation']" :slot="col" slot-scope="text, record, index">
+      <template v-for="col in ['itemInfo', 'rec_class', 'rec_person', 'rec_spo_time', 'rec_grade', 'operation']" :slot="col" slot-scope="text, record">
         <div :key="col">
           <div v-if="col === 'rec_grade' && record.grade_unit === 0">
             {{ record.grade1 }} 分

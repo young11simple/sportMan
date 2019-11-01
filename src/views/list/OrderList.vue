@@ -63,7 +63,7 @@
         :pagination="{pagination: false}"
         rowKey="ath_id"
       >
-        <template v-for="col in ['track_no', 'cla_name', 'athleteInfo']" :slot="col" slot-scope="text, record, index">
+        <template v-for="col in ['track_no', 'cla_name', 'athleteInfo']" :slot="col" slot-scope="text">
           <div :key="col">
             <template>{{ text }}</template>
           </div>

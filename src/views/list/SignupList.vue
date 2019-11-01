@@ -30,7 +30,7 @@
               <!--a-select v-model="queryItem_id" @select="selectItemId"-->
               <a-select v-model="queryItem_id" @change="handleSelect">
                 <a-select-option
-                  v-for="(object,index) in itemDataSource"
+                  v-for="object in itemDataSource"
                   :value="object.item_id"
                   :key="object.item_id">
                   {{ object.itemInfo }}
@@ -77,7 +77,7 @@
       <template v-for="col in ['spo_name','itemInfo', 'ath_name','operation']" :slot="col" >
 
       </template>
-      <template slot="operation" slot-scope="text,record">
+      <template slot="operation" >
         <div class="editable-row-operations">
           <a-popconfirm title="确定删除吗？" @confirm="() => deleteGameAthlete()">
             <a>删除</a>

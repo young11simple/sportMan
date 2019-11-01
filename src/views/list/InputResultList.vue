@@ -85,7 +85,7 @@
       bordered
       rowKey="game_id"
     >
-      <template v-for="col in ['track_no', 'cla_name', 'athInfo', 'grade']" :slot="col" slot-scope="text, record, index">
+      <template v-for="col in ['track_no', 'cla_name', 'athInfo', 'grade']" :slot="col" slot-scope="text, record">
         <div :key="col">
           <div v-if="col === 'grade' && grade_unit === 0">
             <a-col :md="6" :sm="24">

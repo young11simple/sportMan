@@ -61,7 +61,7 @@
           </template>
         </div>
       </template>
-      <template slot="operation" slot-scope="text, record, index">
+      <template slot="operation" slot-scope="text, record">
         <div class="editable-row-operations">
           <span v-if="record.editable">
             <a @click="() => handleSave(record.spo_id)">保存</a>

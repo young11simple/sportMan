@@ -71,7 +71,7 @@ import SideMenu from '@/components/Menu/SideMenu'
 import GlobalHeader from '@/components/GlobalHeader'
 import GlobalFooter from '@/components/GlobalFooter'
 import SettingDrawer from '@/components/SettingDrawer'
-import { asyncRouterMap, adminRouterMap, leaRouterMap } from '@/config/router.config'
+import { adminRouterMap, leaRouterMap } from '@/config/router.config'
 import Vue from 'vue'
 
 // import 'nprogress/nprogress.css' // progress bar style

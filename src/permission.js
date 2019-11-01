@@ -4,11 +4,11 @@ import store from './store'
 
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
-import notification from 'ant-design-vue/es/notification'
+// import notification from 'ant-design-vue/es/notification'
 import { setDocumentTitle, domTitle } from '@/utils/domUtil'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 import { ROLE_ID } from './store/mutation-types'
-import { asyncRouterMap, adminRouterMap, leaRouterMap } from '@/config/router.config'
+import { adminRouterMap, leaRouterMap } from '@/config/router.config'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 

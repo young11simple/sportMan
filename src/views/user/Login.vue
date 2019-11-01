@@ -104,7 +104,7 @@
           class="forge-password"
           style="float: right;"
         >忘记密码</router-link>
-        <a-button style="float: left; margin-left: 20px;" class="forge-password"><a href="https://openapi.yiban.cn/oauth/authorize?client_id=9432b9abe1e68817&redirect_uri=https://denglx.cn/audience" @click="">游客易班登录</a></a-button>
+        <a-button style="float: left; margin-left: 20px;" class="forge-password"><a href="https://openapi.yiban.cn/oauth/authorize?client_id=9432b9abe1e68817&redirect_uri=https://denglx.cn/audience">游客易班登录</a></a-button>
       </a-form-item>
     </a-form>
   </div>
@@ -117,7 +117,7 @@ import { timeFix } from '@/utils/util'
 // import { getSmsCaptcha, get2step } from '@/api/login'
 import DragVerify from 'vue-drag-verify'
 import AFormItem from 'ant-design-vue/es/form/FormItem'
-import Vue from 'vue'
+// import Vue from 'vue'
 export default {
   components: {
     AFormItem,

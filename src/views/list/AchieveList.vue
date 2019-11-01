@@ -52,7 +52,7 @@
         :pagination="pagination"
         rowKey="rank"
       >
-        <template v-for="col in ['rank', 'cla_name', 'ath_name', 'grade']" :slot="col" slot-scope="text, record, index">
+        <template v-for="col in ['rank', 'cla_name', 'ath_name', 'grade']" :slot="col" slot-scope="text, record">
           <div :key="col">
             <div v-if="col === 'grade' && grade_unit === 0">
               {{ record.grade1 }} 分
