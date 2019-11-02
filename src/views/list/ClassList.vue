@@ -60,11 +60,6 @@
 </template>
 
 <script>
-// import moment from 'moment'
-// import { STable } from '@/components'
-// import StepByStepModal from './modules/StepByStepModal'
-// import CreateForm from './modules/CreateForm'
-// import { getRoleList, getServiceList } from '@/api/manage'
 import { getClassList } from '@api/search'
 import { createClass, deleteClass, resetSportLeaderPassword } from '@api/change'
 import Vue from 'vue'
@@ -229,10 +224,10 @@ export default {
       const jsonData = {
         col_id: Vue.ls.get('COL_ID')
       }
-      console.log('jsonData', jsonData)
+      console.log('下载信息', jsonData)
       axios({
         url: '/api/ad/account/downloadSportLeaderAccount.do',
-        method: 'post',
+        method: 'get',
         data: jsonData,
         responseType: 'blob'
       }).then(response => {
@@ -243,6 +238,7 @@ export default {
     },
     download (data) {
       if (!data) {
+        this.$message.error('下载失败')
         return
       }
       const url = window.URL.createObjectURL(new Blob([data]))

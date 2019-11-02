@@ -16,7 +16,7 @@ import { axios } from '@/utils/request'
 
 export function login (parameter) {
   return axios({
-    url: '/api/vi/AdminLogin.do',
+    url: '/api/vi/adminLogin.do',
     method: 'post',
     data: parameter
   }).then((res) => {
@@ -91,7 +91,7 @@ export function logout () {
 
 export function adminRegister (parameter, that) {
   return axios({
-    url: '/api/vi/AdminRegister.do',
+    url: '/api/vi/adminRegister.do',
     method: 'post',
     data: parameter
   }).then((res) => {
@@ -113,7 +113,7 @@ export function adminRegister (parameter, that) {
 
 export function resetAdminPassword (parameter, that) {
   return axios({
-    url: '/api/vi/ResetAdminPassword.do',
+    url: '/api/vi/resetAdminPassword.do',
     method: 'post',
     data: parameter
   }).then((res) => {

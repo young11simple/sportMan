@@ -69,11 +69,6 @@
 </template>
 
 <script>
-// import moment from 'moment'
-// import { STable } from '@/components'
-// import StepByStepModal from './modules/StepByStepModal'
-// import CreateForm from './modules/CreateForm'
-// import { getRoleList, getServiceList } from '@/api/manage'
 import { getAthleteList } from '@api/search'
 import { deleteAthlete, createAthlete, changeAthleteInfo } from '@api/change'
 import Vue from 'vue'
@@ -113,7 +108,7 @@ export default {
     // this.cacheData = this.dataSource.map(item => ({ ...item }))
     return {
       pagination: {
-        defaultPageSize: 5,
+        defaultPageSize: 10,
         showTotal: total => `共 ${total} 条数据`,
         showSizeChanger: true,
         pageSizeOptions: ['5', '10', '15', '20'],
@@ -169,10 +164,17 @@ export default {
         this.dataSource.unshift(newObject)
         this.cacheData.unshift(newObject)
         console.log('创建成功', newObject.ath_id)
+        this.clearInfo()
         // TODO：创建成功后删除本地缓存
       }).catch(err => {
         console.log(err.toString())
       })
+    },
+    clearInfo () {
+      this.queryParam.ath_number = undefined
+      this.queryParam.ath_name = undefined
+      this.queryParam.ath_gender = undefined
+      this.queryParam.ath_phone = undefined
     },
     handleChange (value, key, column) {
       const newData = [...this.dataSource]
@@ -194,11 +196,12 @@ export default {
     },
     handleDelete (key) {
       console.log('cilck delete')
-      const jsonData = {
-        ath_id: key
-      }
-      console.log('jsonData', jsonData)
-      deleteAthlete(jsonData, this).then(res => {
+      // 后台协商直接传key，不传json串
+      // const jsonData = {
+      //   ath_id: key
+      // }
+      console.log('删除信息', key)
+      deleteAthlete(key, this).then(res => {
         const newData = [...this.dataSource]
         this.dataSource = newData.filter(item => item.ath_id !== key)
       }).catch(err => {

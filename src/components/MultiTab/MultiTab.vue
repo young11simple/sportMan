@@ -161,7 +161,7 @@ export default {
             hideAdd
             type={'editable-card'}
             v-model={this.activeKey}
-            tabBarStyle={{ background: 'gray', margin: 0, paddingLeft: '0px', paddingTop: '1px' }}
+            tabBarStyle={{ background: '#ccc', paddingLeft: '5px', paddingTop: '1px' }}
             {...{ on: { edit: onEdit } }}>
             {panes}
           </a-tabs>

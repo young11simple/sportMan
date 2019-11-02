@@ -58,7 +58,7 @@ const logout = () => {
 const changeOK = () => {
   return myBuilder({}, '[测试接口] 提交成功', 1)
 }
-Mock.mock(/\/api\/vi\/AdminLogin/, 'post', login)
+Mock.mock(/\/api\/vi\/adminLogin/, 'post', login)
 Mock.mock(/\/api\/vi\/sportLeaderLogin/, 'post', leaLogin)
 Mock.mock(/\/api\/auth\/logout/, 'post', logout)
 Mock.mock(/\/api\/vi\/AdminRegister/, 'post', changeOK)

@@ -1,7 +1,7 @@
 import { axios } from '@/utils/request'
 export function getSpoList (parameter, that) {
   return axios({
-    url: '/api/vi/score/getSportmeetList.do ',
+    url: '/api/vi/score/getSportmeetList.do',
     method: 'get',
     data: parameter,
     params: parameter
@@ -365,7 +365,6 @@ export function ExportExcel (parameter, that) {
     return Promise.reject(err)
   })
 }
-
 export function getFinish (parameter, that) {
   return axios({
     url: '/api/ad/game/getFinishSign.do',

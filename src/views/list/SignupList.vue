@@ -42,8 +42,8 @@
             <a-form-item label="运动员姓名" v-show="isTeamFunc()">
               <a-select v-model="queryAth_id[0]" @change="handleSelect">
                 <a-select-option
-                  v-for="(object,index) in athleteDataSource"
-                  :value="index"
+                  v-for="object in athleteDataSource"
+                  :value="object.ath_id"
                   :key="object.ath_id">
                   {{ object.ath_name }}
                 </a-select-option>
@@ -115,7 +115,7 @@ const columns = [{
 }]
 
 export default {
-  // name: 'TableList',
+  name: 'SignupList',
   components: {
 
   },
@@ -142,8 +142,8 @@ export default {
       itemDataSource: {},
       athleteDataSource: {},
       sportmeetDataSource: [],
-      isteam: 0,
-      flag: false
+      isteam: 0
+      // flag: false
     }
   },
   filters: {
@@ -155,18 +155,17 @@ export default {
   methods: {
     isTeamFunc: function () {
       if (this.isteam === 0) {
-        this.flag = true
+        return true
       } else {
-        this.flag = false
+        return false
       }
-      return this.flag
     },
     getGameAthleteList: function () {
       const jsonData = {
         spo_id: this.querySpo_id,
         cla_id: Vue.ls.get('CLA_ID')
       }
-      console.log('获取报名运动员列表：', jsonData)
+      console.log('获取报名运动员列表信息：', jsonData)
       getGameAthleteList(jsonData, this).then(res => {
         this.dataSource = res && res.result.dataSource
         this.dataSource = this.dataSource.map(function (item, index) {
@@ -174,7 +173,7 @@ export default {
           return item
         })
         this.cacheData = this.dataSource.map(item => ({ ...item })) // 深克隆
-        // console.log('this.dataSource', this.dataSource)
+        console.log('报名信息', this.dataSource)
       }).catch(err => {
         console.log(err.toString())
       })
@@ -184,7 +183,7 @@ export default {
         const mapObj = new Map()
         for (let i = 0; i < this.queryAth_id.length; i++) {
           mapObj.set(this.queryAth_id[i], true)
-          console.log(this.queryAth_id[i])
+          console.log('运动员信息：', this.queryAth_id[i])
         }
         if (mapObj.size !== 4) {
           this.$message.error('请选择不重复的4名同学')
@@ -213,13 +212,13 @@ export default {
         console.log(err.toString())
       })
     },
-    deleteGameAthlete (key) {
+    deleteGameAthlete (item) {
       const jsonData = {
         spo_id: this.querySpo_id,
-        item_id: this.queryItem_id,
-        ath_id: this.queryAth_id[0]
+        item_id: item.queryItem_id,
+        ath_id: item.ath_id
       }
-      console.log('jsonData', jsonData, 'key', key)
+      console.log('删除信息：', jsonData, 'item', item)
       deleteGameAthlete(jsonData, this).then(res => {
         // TODO：使用本地缓存过滤
         // console.log('cilck delete', key)
@@ -284,10 +283,11 @@ export default {
       const jsonData = {
         col_id: Vue.ls.get('COL_ID')
       }
-
       getSpoList(jsonData, this).then(res => {
-        this.sportmeetDataSource = res && res.result.dataSource
-        console.log('运动会名称', this.sportmeetDataSource)
+        // TODO:筛选isopen为true的运动会
+        var temp = res && res.result.dataSource
+        this.sportmeetDataSource = temp.filter(item => item.isopen === true)
+        console.log('开放报名的运动会列表', this.sportmeetDataSource)
       }).catch(err => {
         console.log(err.toString())
       })

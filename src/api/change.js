@@ -170,7 +170,7 @@ export function createClass (parameter, that) {
 }
 export function deleteClass (parameter, that) {
   return axios({
-    url: '/api/ad/sportmeet/deleteClass.do',
+    url: '/api/ad/class/deleteClass.do',
     method: 'post',
     data: parameter
   }).then((res) => {
@@ -191,7 +191,7 @@ export function deleteClass (parameter, that) {
 }
 export function resetSportLeaderPassword (parameter, that) {
   return axios({
-    url: '/api/ad/sportmeet/resetSportLeaderPassword.do',
+    url: '/api/ad/class/resetSportLeaderPassword.do',
     method: 'post',
     data: parameter
   }).then((res) => {
