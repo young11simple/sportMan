@@ -175,7 +175,7 @@ export default {
         console.log(jsonData)
         createAthlete(jsonData, this).then(res => {
           newObject.ath_id = res.result.ath_id
-          newObject.ath_gender = this.gender[res.result.ath_gender]
+          newObject.ath_gender = this.gender[this.queryParam.ath_gender]
           this.dataSource.unshift(newObject)
           this.cacheData.unshift(newObject)
           console.log('创建成功', newObject.ath_id)
