@@ -233,7 +233,7 @@ export default {
         const jsonData = {
           ath_id: target.ath_id,
           ath_number: target.ath_number,
-          ath_gender: target.ath_gender,
+          ath_gender: this.gender.indexOf(target.ath_gender),
           ath_name: target.ath_name,
           ath_phone: target.ath_phone
         }

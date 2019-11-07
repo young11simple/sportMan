@@ -77,9 +77,9 @@
       <template v-for="col in ['spo_name','itemInfo', 'athleteInfo','operation']" :slot="col" >
 
       </template>
-      <template slot="operation" slot-scope="record">
+      <template slot="operation" slot-scope="text, record">>
         <div class="editable-row-operations">
-          <a-popconfirm title="确定删除吗？" @confirm="() => deleteGameAthlete(record)">
+          <a-popconfirm title="确定删除吗？" @confirm="() => deleteGameAthlete(record.ath_id,record.item_id)">
             <a>删除</a>
           </a-popconfirm>
         </div>
@@ -218,11 +218,11 @@ export default {
         })
       }
     },
-    deleteGameAthlete (item) {
+    deleteGameAthlete (itemId, athId) {
       const jsonData = {
         spo_id: this.querySpo_id,
-        item_id: item.item_id,
-        ath_id: item.ath_id
+        item_id: itemId,
+        ath_id: athId
       }
       // 把record整个信息传过来
       // const jsonData = JSON.parse(JSON.stringify(item))
