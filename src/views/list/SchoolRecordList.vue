@@ -29,7 +29,7 @@
 
 <script>
 import { getRecordList } from '@api/search'
-
+import Vue from 'vue'
 const columns = [{
   title: '项目名称',
   dataIndex: 'itemInfo',
@@ -89,7 +89,7 @@ export default {
   methods: {
     getRecordList () {
       const jsonData = {
-        col_id: 0
+        col_id: Vue.ls.get('COL_ID')
       }
       console.log('jsonData', jsonData)
       getRecordList(jsonData, this).then(res => {

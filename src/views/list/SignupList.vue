@@ -74,12 +74,12 @@
       :pagination="pagination"
       rowKey=""
       bordered>
-      <template v-for="col in ['spo_name','itemInfo', 'ath_name','operation']" :slot="col" >
+      <template v-for="col in ['spo_name','itemInfo', 'athleteInfo','operation']" :slot="col" >
 
       </template>
-      <template slot="operation" >
+      <template slot="operation" slot-scope="record">
         <div class="editable-row-operations">
-          <a-popconfirm title="确定删除吗？" @confirm="() => deleteGameAthlete()">
+          <a-popconfirm title="确定删除吗？" @confirm="() => deleteGameAthlete(record)">
             <a>删除</a>
           </a-popconfirm>
         </div>
@@ -93,20 +93,15 @@ import { getAthleteList, getGameAthleteList, getSpoList, getItemList } from '@ap
 import { createGameAthlete, deleteGameAthlete } from '@api/change'
 import Vue from 'vue'
 const columns = [{
-  title: '运动会名称',
-  dataIndex: 'spo_name',
-  width: '25%',
-  scopedSlots: { customRender: 'spo_name' }
-}, {
   title: '参加项目',
   dataIndex: 'itemInfo',
   width: '25%',
   scopedSlots: { customRender: 'itemInfo' }
 }, {
   title: '运动员姓名',
-  dataIndex: 'ath_name',
+  dataIndex: 'athleteInfo',
   width: '25%',
-  scopedSlots: { customRender: 'ath_name' }
+  scopedSlots: { customRender: 'athleteInfo' }
 }, {
   title: '操作',
   width: '25%',
@@ -179,26 +174,36 @@ export default {
       })
     },
     createGameAthlete () {
-      if (this.isteam) {
-        const mapObj = new Map()
-        for (let i = 0; i < this.queryAth_id.length; i++) {
-          mapObj.set(this.queryAth_id[i], true)
-          console.log('运动员信息：', this.queryAth_id[i])
+      if (this.querySpo_id === undefined ||
+      this.queryItem_kind === undefined ||
+      this.queryItem_id === undefined ||
+      this.queryAth_id[0] === undefined ||
+      this.querySpo_id === null ||
+      this.queryItem_kind === null ||
+      this.queryItem_id === null ||
+      this.queryAth_id[0] === null) {
+        this.$message.error('请填写完整信息')
+      } else {
+        if (this.isteam) {
+          const mapObj = new Map()
+          for (let i = 0; i < this.queryAth_id.length; i++) {
+            mapObj.set(this.queryAth_id[i], true)
+            console.log('运动员信息：', this.queryAth_id[i])
+          }
+          if (mapObj.size !== 4) {
+            this.$message.error('请选择不重复的4名同学')
+            return
+          }
         }
-        if (mapObj.size !== 4) {
-          this.$message.error('请选择不重复的4名同学')
-          return
+        const jsonData = {
+          spo_id: this.querySpo_id,
+          cla_id: Vue.ls.get('CLA_ID'),
+          item_id: this.queryItem_id,
+          ath_ids: this.queryAth_id
         }
-      }
-      const jsonData = {
-        spo_id: this.querySpo_id,
-        cla_id: Vue.ls.get('CLA_ID'),
-        item_id: this.queryItem_id,
-        ath_ids: this.queryAth_id
-      }
-      console.log('报名信息', jsonData)
-      createGameAthlete(jsonData, this).then(res => {
-        this.getGameAthleteList()
+        console.log('报名信息', jsonData)
+        createGameAthlete(jsonData, this).then(res => {
+          this.getGameAthleteList()
         // TODO：可以使用另一种更新方式
         // const newObject = {}
         // // newObject.signup_id = res.result.signup_id
@@ -208,17 +213,20 @@ export default {
         // this.dataSource.unshift(newObject)
         // this.cacheData.unshift(newObject)
         // console.log('创建成功', newObject)
-      }).catch(err => {
-        console.log(err.toString())
-      })
+        }).catch(err => {
+          console.log(err.toString())
+        })
+      }
     },
     deleteGameAthlete (item) {
       const jsonData = {
         spo_id: this.querySpo_id,
-        item_id: item.queryItem_id,
+        item_id: item.item_id,
         ath_id: item.ath_id
       }
-      console.log('删除信息：', jsonData, 'item', item)
+      // 把record整个信息传过来
+      // const jsonData = JSON.parse(JSON.stringify(item))
+      console.log('删除信息：', jsonData)
       deleteGameAthlete(jsonData, this).then(res => {
         // TODO：使用本地缓存过滤
         // console.log('cilck delete', key)

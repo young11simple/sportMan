@@ -118,6 +118,7 @@ export default {
       dataSource: [],
       cacheData: [],
       data: {},
+      gender: ['男', '女'],
       columns
     }
   },
@@ -136,6 +137,9 @@ export default {
       getAthleteList(jsonData, this).then(res => {
         this.data = res && res.result
         this.dataSource = res && res.result.dataSource
+        for (let i = 0; i < this.dataSource.length; i++) {
+          this.dataSource[i].ath_gender = this.gender[this.dataSource[i].ath_gender]
+        }
         console.log(this.dataSource)
         this.cacheData = this.dataSource.map(item => ({ ...item })) // 深克隆
         // this.athleteDataSource = res && res.result.dataSource
@@ -147,28 +151,40 @@ export default {
       console.log(`selected ${value}`)
     },
     handleCreate () {
+      if (this.queryParam.ath_number === undefined ||
+      this.queryParam.ath_name === undefined ||
+      this.queryParam.ath_gender === undefined ||
+      this.queryParam.ath_phone === undefined ||
+      this.queryParam.ath_number === null ||
+      this.queryParam.ath_name === null ||
+      this.queryParam.ath_gender === null ||
+      this.queryParam.ath_phone === null) {
+        this.$message.error('请填写完整信息')
+      } else {
       // 提交成功之后，需要获取key
-      let newObject = []
-      newObject = JSON.parse(JSON.stringify(this.queryParam)) // 深克隆
-      // newObject = this.queryParam
-      const jsonData = {
-        cla_id: Vue.ls.get('CLA_ID'),
-        ath_number: this.queryParam.ath_number,
-        ath_name: this.queryParam.ath_name,
-        ath_gender: this.queryParam.ath_gender,
-        ath_phone: this.queryParam.ath_phone
-      }
-      console.log(jsonData)
-      createAthlete(jsonData, this).then(res => {
-        newObject.ath_id = res.result.ath_id
-        this.dataSource.unshift(newObject)
-        this.cacheData.unshift(newObject)
-        console.log('创建成功', newObject.ath_id)
-        this.clearInfo()
+        let newObject = []
+        newObject = JSON.parse(JSON.stringify(this.queryParam)) // 深克隆
+        // newObject = this.queryParam
+        const jsonData = {
+          cla_id: Vue.ls.get('CLA_ID'),
+          ath_number: this.queryParam.ath_number,
+          ath_name: this.queryParam.ath_name,
+          ath_gender: this.queryParam.ath_gender,
+          ath_phone: this.queryParam.ath_phone
+        }
+        console.log(jsonData)
+        createAthlete(jsonData, this).then(res => {
+          newObject.ath_id = res.result.ath_id
+          newObject.ath_gender = this.gender[res.result.ath_gender]
+          this.dataSource.unshift(newObject)
+          this.cacheData.unshift(newObject)
+          console.log('创建成功', newObject.ath_id)
+          this.clearInfo()
         // TODO：创建成功后删除本地缓存
-      }).catch(err => {
-        console.log(err.toString())
-      })
+        }).catch(err => {
+          console.log(err.toString())
+        })
+      }
     },
     clearInfo () {
       this.queryParam.ath_number = undefined
@@ -197,11 +213,11 @@ export default {
     handleDelete (key) {
       console.log('cilck delete')
       // 后台协商直接传key，不传json串
-      // const jsonData = {
-      //   ath_id: key
-      // }
-      console.log('删除信息', key)
-      deleteAthlete(key, this).then(res => {
+      const jsonData = {
+        ath_id: key
+      }
+      console.log('删除信息', jsonData)
+      deleteAthlete(jsonData, this).then(res => {
         const newData = [...this.dataSource]
         this.dataSource = newData.filter(item => item.ath_id !== key)
       }).catch(err => {

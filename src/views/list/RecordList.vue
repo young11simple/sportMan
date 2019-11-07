@@ -20,8 +20,8 @@
             <a-form-item label="项目名称">
               <a-select v-model="queryItem_id">
                 <a-select-option
-                  v-for="(object,index) in itemDataSource"
-                  :value="index"
+                  v-for="object in itemDataSource"
+                  :value="object.item_id"
                   :key="object.item_id">{{ object.itemInfo }}</a-select-option>
               </a-select>
             </a-form-item>
@@ -229,9 +229,10 @@ export default {
       const jsonData = {
         col_id: Vue.ls.get('COL_ID')
       }
-      console.log('jsonData', jsonData)
+      console.log('记录所需信息：', jsonData)
       getRecordList(jsonData, this).then(res => {
         this.dataSource = res && res.result.dataSource
+        console.log('获得记录信息：', this.dataSource)
         this.cacheData = this.dataSource.map(item => ({ ...item })) // 深克隆
         this.gradeDecode()
       }).catch(err => {
@@ -242,9 +243,10 @@ export default {
       const jsonData = {
         item_kind: this.queryItem_kind
       }
-      console.log('jsonData', jsonData)
+      console.log('获取项目列表所需信息', jsonData)
       getItemList(jsonData, this).then(res => {
         this.itemDataSource = res && res.result.dataSource
+        console.log('获取项目列表', this.itemDataSource)
       }).catch(err => {
         console.log(err.toString())
       })

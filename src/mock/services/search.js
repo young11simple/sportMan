@@ -7,7 +7,7 @@ const spoDatasource = Mock.mock({
     'spo_name': '@cname',
     'spo_time|1556704132344-1656704132344': 1556704132344,
     'spo_location': '@city',
-    'isopen': false,
+    'isopen': true,
     'update_time': '@datetime'
   }]
 })
@@ -105,7 +105,8 @@ const gameAthleteDatasource = Mock.mock({
     'itemInfo': '@cname',
     'item_id|+10': 7,
     'ath_name': '@cname',
-    'spo_name': '@cname'
+    'spo_name': '@cname',
+    'spo_id|+1': 0
   }]
 })
 const gameAthleteData = () => {

@@ -4,17 +4,20 @@
       <div class="top">
         <div class="header">
           <img src="~@/assets/logo3.png" class="logo" alt="logo">
-          <span class="title">运动会管理系统</span>
+          <span class="title">个人运动系统测试</span>
         </div>
       </div>`
 
       <route-view></route-view>
 
-      <div class="footer">
+      <!-- <div class="footer">
         <div class="copyright">
-          Copyright &copy; 2019 华农运动会管理系统
+          Copyright &copy; 2019 个人运动系统测试
         </div>
-      </div>
+      </div> -->
+      <a-layout-footer>
+        <global-footer />
+      </a-layout-footer>
     </div>
   </div>
 </template>
@@ -22,10 +25,11 @@
 <script>
 import RouteView from './RouteView'
 import { mixinDevice } from '@/utils/mixin'
+import GlobalFooter from '@/components/GlobalFooter'
 
 export default {
   name: 'UserLayout',
-  components: { RouteView },
+  components: { RouteView, GlobalFooter },
   mixins: [mixinDevice],
   data () {
     return {}

@@ -16,12 +16,11 @@ export default {
   props: {
     title: {
       type: String,
-      default: '运动会管理系统',
+      default: '个人运动系统',
       required: false
     }
   }
 }
 </script>
 <style scoped>
-
 </style>

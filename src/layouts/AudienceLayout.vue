@@ -5,7 +5,7 @@
         <div class="header">
           <a href="/">
             <img src="~@/assets/logo.jpg" class="logo" alt="logo">
-            <span class="title">运动会管理系统</span>
+            <span class="title">个人运动系统测试</span>
           </a>
         </div>
         <div class="desc">
@@ -31,23 +31,23 @@
 </template>
 
 <script>
-  import RouteView from './RouteView'
-  import { mixinDevice } from '@/utils/mixin'
-  import GlobalHeader from '@/components/GlobalHeader'
-  export default {
-    name: 'AudienceLayout',
-    components: { RouteView },
-    mixins: [mixinDevice],
-    data () {
-      return {}
-    },
-    mounted () {
-      document.body.classList.add('audienceLayout')
-    },
-    beforeDestroy () {
-      document.body.classList.remove('audienceLayout')
-    }
+import RouteView from './RouteView'
+import { mixinDevice } from '@/utils/mixin'
+import GlobalHeader from '@/components/GlobalHeader'
+export default {
+  name: 'AudienceLayout',
+  components: { RouteView },
+  mixins: [mixinDevice],
+  data () {
+    return {}
+  },
+  mounted () {
+    document.body.classList.add('audienceLayout')
+  },
+  beforeDestroy () {
+    document.body.classList.remove('audienceLayout')
   }
+}
 </script>
 
 <style lang="less" scoped>
@@ -79,7 +79,6 @@
       background-size: 100%;
       padding: 110px 0 144px;
       position: fixed;
-
 
       a {
         text-decoration: none;

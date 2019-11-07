@@ -2,7 +2,8 @@
   <div class="footer">
     <div class="copyright">
       Copyright
-      <a-icon type="copyright" /> 2019 <span>华农运动会管理系统</span>
+      <a-icon type="copyright" /> 2019 <span>个人运动系统测试&nbsp;
+        <a href="http://www.beian.miit.gov.cn">粤ICP备19115033号</a> </span>
     </div>
   </div>
 </template>
